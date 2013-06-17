@@ -14,6 +14,7 @@ class List extends Backbone.Collection
     #@functionLog 'byCategory('+categoryName+')'
 
     # TODO: Da muss es einen einfacheren Weg geben. Sowas in richtung: @where({categorie: ...u.a. foobar... })
+    # TODO: teste das hier: console.log @where({categorie: ...u.a. foobar... })
     result = new List
     _.each @models, (item) =>
       currentItem = item
@@ -30,10 +31,7 @@ class List extends Backbone.Collection
       attributes = element.toJSON()
       #regEx = eval('/'+searchParam.toLowerCase()+'/g')
       pattern = RegExp(searchParam.toLowerCase())
-      if !attributes.german.toLowerCase().match(pattern) && !attributes.manisch.toLowerCase().match(pattern)
-        return false
-      else
-        return true
+      return attributes.german.toLowerCase().match(pattern) || attributes.manisch.toLowerCase().match(pattern)
 
     filtered = new List @filter byInput
 
