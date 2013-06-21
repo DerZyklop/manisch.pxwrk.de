@@ -88,21 +88,15 @@
     })();
 
     ItemView.prototype.initialize = function() {
-      var _this = this;
-      _.bindAll(this);
-      return jQuery.ajax({
-        url: 'site/templates/item.html',
-        async: false,
-        dataType: 'html',
-        success: function(data) {
-          return _this.template = data;
-        },
-        error: function() {}
-      });
+      return _.bindAll(this);
     };
 
-    ItemView.prototype.render = function() {
-      jQuery(this.el).html(_.template(this.template, this.model.toJSON()));
+    ItemView.prototype.render = function(tmpl) {
+      if (tmpl) {
+        jQuery(this.el).html(_.template(tmpl, this.model.toJSON()));
+      } else {
+        jQuery(this.el).html('Error: Missing Template');
+      }
       return this;
     };
 
@@ -129,8 +123,6 @@
     }
 
     List.prototype.model = Item;
-
-    List.prototype.initialize = function() {};
 
     List.prototype.byCategory = function(categoryName) {
       var result,
@@ -201,6 +193,7 @@
       this.functionLog('getItemsBySearch(' + searchParam + ')');
       this.removeAllItems();
       searchResult = this.requestedTranslations.search(searchParam);
+      console.log(searchResult.models);
       return _.each(searchResult.models, function(item) {
         return _this.appendItem(item);
       });
@@ -215,12 +208,13 @@
     };
 
     ListView.prototype.appendItem = function(item) {
-      var item_view;
+      var itemView;
       this.functionLog('appendItem()');
-      item_view = new ItemView({
-        model: item
+      itemView = new ItemView({
+        model: item,
+        tmpl: this.itemTmpl
       });
-      return $(this.el).append(item_view.render().el);
+      return $(this.el).append(itemView.render(this.itemTmpl).el);
     };
 
     ListView.prototype.appendItems = function(collection) {
@@ -229,12 +223,12 @@
       this.requestedTranslations = collection;
       html = '';
       _.each(collection.models, function(item) {
-        var item_view;
+        var itemView;
         item.set('currentlyVisible', true);
-        item_view = new ItemView({
+        itemView = new ItemView({
           model: item
         });
-        return html += item_view.render().el.outerHTML;
+        return html += itemView.render(_this.itemTmpl).el.outerHTML;
       });
       return jQuery(this.el).append(html);
     };
@@ -245,6 +239,31 @@
       });
       return jQuery(this.el).html('');
     };
+
+    ListView.prototype.itemTmpl = (function() {
+      var t,
+        _this = this;
+      t = false;
+      return (function() {
+        if (t === false) {
+          console.log('get the item.html');
+          jQuery.ajax({
+            url: 'site/templates/item.html',
+            async: false,
+            dataType: 'html',
+            success: function(data) {
+              return t = data;
+            },
+            error: function() {
+              return this.functionLog('error');
+            }
+          });
+        }
+        return t;
+      })();
+    })();
+
+    ListView.prototype.initialize = function() {};
 
     ListView.prototype.render = function() {
       return this.functionLog('render()');

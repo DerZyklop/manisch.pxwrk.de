@@ -14,6 +14,8 @@ class ListView extends pxwrkHelpersForViews
 
     searchResult = @requestedTranslations.search(searchParam)
 
+    console.log searchResult.models
+
     _.each searchResult.models, (item) =>
       @appendItem(item)
 
@@ -30,10 +32,11 @@ class ListView extends pxwrkHelpersForViews
   appendItem: (item) ->
     @functionLog 'appendItem()'
 
-    item_view = new ItemView
+    itemView = new ItemView
       model: item
+      tmpl: @itemTmpl
 
-    $(@el).append( item_view.render().el )
+    $(@el).append( itemView.render(@itemTmpl).el )
 
   appendItems: (collection) ->
 
@@ -43,10 +46,10 @@ class ListView extends pxwrkHelpersForViews
     _.each collection.models, (item) =>
       item.set 'currentlyVisible', true
 
-      item_view = new ItemView
+      itemView = new ItemView
         model: item
 
-      html += item_view.render().el.outerHTML
+      html += itemView.render(@itemTmpl).el.outerHTML
 
     jQuery(@el).append( html )
 
@@ -54,6 +57,25 @@ class ListView extends pxwrkHelpersForViews
     _.each @allTranslations.models, (item) ->
       item.set 'currentlyVisible', false
     jQuery(@el).html('')
+
+  itemTmpl: (->
+    t = false
+    return (=>
+      if t == false
+        console.log 'get the item.html'
+        jQuery.ajax
+          url: 'site/templates/item.html'
+          async: false
+          dataType: 'html'
+          success: (data) =>
+            t = data
+          error: ->
+            @functionLog 'error'
+      return t
+    )()
+  )()
+
+  initialize: ->
 
   render: ->
     @functionLog 'render()'

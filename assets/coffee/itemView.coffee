@@ -15,21 +15,13 @@ class ItemView extends pxwrkHelpersForViews
   initialize: ->
     _.bindAll @
 
-    jQuery.ajax
-      url: 'site/templates/item.html'
-      async: false
-      dataType: 'html'
-      success: (data) =>
-        @template = data
-      error: ->
-        #@functionLog 'error'
-
-  render: ->
+  render: (tmpl) ->
     #_.templateSettings.interpolate : /\{\{(.+?)\}\}/g
 
-    # TODO: Hier muss noch performance optimiert werden. Gendering von viellen elementen dauert noch zu lange.
-
-    jQuery(@el).html( _.template( @template, @model.toJSON() ) )
+    if tmpl
+      jQuery(@el).html( _.template( tmpl, @model.toJSON() ) )
+    else
+      jQuery(@el).html( 'Error: Missing Template' )
 
     @
 

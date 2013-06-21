@@ -2,8 +2,6 @@ class List extends Backbone.Collection
 
   model: Item
 
-  initialize: ->
-
   byCategory: (categoryName) ->
     #@functionLog 'byCategory('+categoryName+')'
 
