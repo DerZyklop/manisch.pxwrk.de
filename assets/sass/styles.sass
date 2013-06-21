@@ -10,10 +10,24 @@ $nav-col-min-width: 330px
 #primary
   padding-bottom: $space-t-b
   background-color: #333
-  padding: $space-t-b
 
 #secondary
+  position: relative
+
+.search-wrap
   padding: $space-t-b
+
+.fixsearch
+  .search-wrap
+    position: fixed
+    top: 0
+    right: 0
+    left: 0
+    background: rgba(255,255,255,0.9)
+    border-bottom: 1px solid $tertiary
+
+  #secondary
+    padding-top: $space-t-b*2 + 54px
 
 @media screen and (min-width: $breakpoint)
   #primary
@@ -25,9 +39,35 @@ $nav-col-min-width: 330px
     box-sizing: border-box
     overflow: auto
 
+  .fixsearch .search-wrap,
+  .search-wrap
+    position: fixed
+    left: $nav-col-size
+    top: 0
+    right: 0
+    background: rgba(255,255,255,0.9)
+    border-bottom: 1px solid $tertiary
+
   #secondary
     margin-left: $nav-col-size
-    padding-left: $space-t-b
+    padding-top: $space-t-b*2 + 54px
+
+
+input#search
+  height: 54px
+  +box-shadow(#fff 0 0 40px)
+  background-color: $quadrary - #111
+  &:focus
+    background-color: $quadrary
+
+.content
+  position: relative
+
+#search
+
+#primary
+  padding: $space-t-b
+
 
 button,
 input[type="button"]
@@ -41,7 +81,7 @@ ul
   border-top: 1px solid $tertiary
   list-style: none
   padding: 0
-  margin: 1em 0
+  margin: 0
   li
     padding: 0.5em 0.5em
     border-bottom: 1px solid $tertiary
