@@ -8,26 +8,21 @@
 </head>
 <body>
 	<div class="page-wrap">
-	  <div class="multi-col-30-30-30">
-	    <div class="col-1">
-        <button id="all" class="sort">Alle Wörter</button>
-	    </div>
-	    <div class="col-2">
-	      <button id="stadtbekannt" class="sort">Stadtbekannte Wörter</button>
-	    </div>
-	    <div class="col-3">
-	      <button id="schimpfwort" class="sort">Schimpfwörter</button>
-	    </div>
-	    <div class="clearit"></div>
+	  <div id="primary">
+      <button id="all" class="sort">Alle Wörter</button>
+      <button id="stadtbekannt" class="sort">Stadtbekannte Wörter</button>
+      <button id="schimpfwort" class="sort">Schimpfwörter</button>
 	  </div>
-    <input type="text" name="search" id="search" placeholder="Suche" />
-    <ul id="list"></ul>
+    <div id="secondary">
+      <input type="text" name="search" id="search" placeholder="Suche" />
+      <ul id="list"></ul>
+    </div>
 	</div>
 
 	<script type="text/javascript" src="assets/js/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/js/underscore.js"></script>
 	<script type="text/javascript" src="assets/js/backbone.js"></script>
-	<script type="text/javascript" src="assets/js/script.js"></script>
+	<script type="text/javascript" src="assets/js/manischApp.js"></script>
 
 </body>
 </html>

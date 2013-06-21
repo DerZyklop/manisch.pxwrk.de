@@ -1,20 +1,56 @@
 @import 'config'
 
-@import '../../../github.pxwrk.de/pxwrk-sass-dummy-0.4/mixins/all'
+@import '../../../github.pxwrk.de/pxwrk-sass-dummy-beta/mixins/all'
 
 +all
 
-.page-wrap
-  padding: 1em
+$nav-col-size: 30%
+$nav-col-min-width: 330px
+
+#primary
+  padding-bottom: $space-t-b
+  background-color: #333
+  padding: $space-t-b
+
+#secondary
+  padding: $space-t-b
+
+@media screen and (min-width: $breakpoint)
+  #primary
+    position: fixed
+    width: $nav-col-size
+    left: 0
+    top: 0
+    bottom: 0
+    box-sizing: border-box
+    overflow: auto
+
+  #secondary
+    margin-left: $nav-col-size
+    padding-left: $space-t-b
+
+button,
+input[type="button"]
+  font-size: 0.9em
+  text-align: left
+  border: none
+
+//.page-wrap
 
 ul
-  border-top: 1px solid $border-color
+  border-top: 1px solid $tertiary
   list-style: none
   padding: 0
   margin: 1em 0
   li
-    padding: 0.5em 0
-    border-bottom: 1px solid $border-color
+    padding: 0.5em 0.5em
+    border-bottom: 1px solid $tertiary
+    &.odd
+      background-color: $quadrary - #090909
+    &.even
+      background-color: $quadrary - #030303
+    &:hover
+      background-color: $quadrary - #222
     .german
       font-weight: bold
       float: left
@@ -25,8 +61,7 @@ ul
       display: block
       line-height: 0.5em
       width: 50px
-      color: #676767
-      color: $border-color
+      color: $tertiary
       font-size: 0.8em
 
 .multi-col-30-30-30
@@ -41,11 +76,11 @@ ul
       border-radius: 0 $radius $radius 0
 
 button.active
-  background: $tertiary
+  background: $secondary
 
 .ui-autocomplete
   background: #fff
-  border: 1px solid $border-color
+  border: 1px solid $tertiary
   padding: 0
   list-style: none
   position: relative
