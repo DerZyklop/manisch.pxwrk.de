@@ -14,12 +14,12 @@ class AppView extends pxwrkHelpersForViews
   performScrollCheck: (navHeight) ->
     if jQuery('body').hasClass('fixsearch')
 
-      if jQuery(this).scrollTop() < navHeight
+      if jQuery(window).scrollTop() < navHeight
         jQuery('body').removeClass('fixsearch')
 
     else
 
-      if jQuery(this).scrollTop() > navHeight
+      if jQuery(window).scrollTop() > navHeight
         jQuery('body').addClass('fixsearch')
 
   events:
@@ -71,11 +71,11 @@ class AppView extends pxwrkHelpersForViews
     navHeight = jQuery('.search-wrap').offset().top
 
 
-    jQuery(window).on 'scroll', ->
+    jQuery(window).on 'scroll', =>
       @performScrollCheck(navHeight)
 
 
-    jQuery(window).on 'resize', ->
+    jQuery(window).on 'resize', =>
       jQuery('body').removeClass('fixsearch')
       navHeight = jQuery('.search-wrap').offset().top
       @performScrollCheck(navHeight)

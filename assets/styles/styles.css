@@ -494,7 +494,9 @@ button,
 input[type="button"] {
   font-size: 0.9em;
   text-align: left;
-  border: none;
+  margin-bottom: 0.6em;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: transparent;
 }
 
 ul {
