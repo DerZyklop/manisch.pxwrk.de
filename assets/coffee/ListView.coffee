@@ -12,12 +12,7 @@ class ListView extends pxwrkHelpersForViews
 
     @removeAllItems()
 
-    searchResult = @requestedTranslations.search(searchParam)
-
-    console.log searchResult.models
-
-    _.each searchResult.models, (item) =>
-      @appendItem(item)
+    @requestedTranslations.search(searchParam)
 
   getItemsByCategory: (categoryName) ->
     @functionLog 'getItemsByCategory()'
@@ -27,7 +22,7 @@ class ListView extends pxwrkHelpersForViews
 
     @removeAllItems()
 
-    @allTranslations.byCategory(categoryName)
+    @requestedTranslations = @allTranslations.byCategory(categoryName)
 
   appendItem: (item) ->
     @functionLog 'appendItem()'
@@ -38,9 +33,39 @@ class ListView extends pxwrkHelpersForViews
 
     $(@el).append( itemView.render(@itemTmpl).el )
 
+
+  getClassName: (->
+    latestTranslation = false
+    translationsCounter = 0
+    itemsCounter = 0
+    return (item, collection) ->
+      if (latestTranslation.german == item.toJSON().german)
+        result = 'same-german'
+      else if (latestTranslation.manisch == item.toJSON().manisch)
+        result = 'same-manisch'
+      else
+        result = ''
+        translationsCounter++
+
+      if translationsCounter%2 == 0
+        result += ' even'
+      else
+        result += ' odd'
+
+      itemsCounter++
+      if itemsCounter == collection.length
+        translationsCounter = 0
+        itemsCounter = 0
+        latestTranslation = false
+      else
+        latestTranslation = item.toJSON()
+
+      return result
+  )()
+
   appendItems: (collection) ->
 
-    @requestedTranslations = collection
+    console.log 'collection: '+collection
 
     html = ''
     _.each collection.models, (item) =>
@@ -48,6 +73,7 @@ class ListView extends pxwrkHelpersForViews
 
       itemView = new ItemView
         model: item
+        className: @getClassName(item, collection)
 
       html += itemView.render(@itemTmpl).el.outerHTML
 
@@ -62,7 +88,6 @@ class ListView extends pxwrkHelpersForViews
     t = false
     return (=>
       if t == false
-        console.log 'get the item.html'
         jQuery.ajax
           url: 'site/templates/item.html'
           async: false

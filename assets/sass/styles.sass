@@ -6,28 +6,88 @@
 
 $nav-col-size: 30%
 $nav-col-min-width: 330px
+$topBarHeight: 36px
+
+h1
+  font-size: 1.1em
+  line-height: $topBarHeight
+  margin: 0
+  color: $primary
 
 #primary
   padding-bottom: $space-t-b
   background-color: #333
+  .top-bar
+    display: block
+    text-decoration: none
+    background: rgba(0,0,0,0.1)
+    background: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.2))
+    border-bottom: 1px solid #444
 
 #secondary
   position: relative
 
-.search-wrap
-  padding: $space-t-b
+#bottom-shadow
+  background: linear-gradient(transparent,#000)
+  height: 50px
+  position: fixed
+  bottom: 0
+  left: 30%
+  right: 0
+  opacity: 0.3
+  +transition(opacity 0.5s)
+
+
+#secondary .top-bar
+  background: linear-gradient(rgba(255,255,255,0.8),rgba(240,240,240,0.8))
+  background: linear-gradient(rgba(255,255,255,0.8),rgba(240,240,240,0.8))
+
 
 .fixsearch
-  .search-wrap
+  #secondary .top-bar
     position: fixed
     top: 0
     right: 0
     left: 0
-    background: rgba(255,255,255,0.9)
     border-bottom: 1px solid $tertiary
 
   #secondary
     padding-top: $space-t-b*2 + 54px
+
+
+input#search,
+#primary .top-bar
+  min-height: $topBarHeight
+  padding: $space-t-b
+
+input#search
+  min-height: $topBarHeight + 2*$space-t-b
+  border-radius: 0
+  box-shadow: none
+  margin: 0
+  border: none
+  display: block
+  background-color: $quadrary - #111
+  &:focus
+    background-color: $quadrary
+
+
+.content
+  position: relative
+  button
+    margin-bottom: $space-t-b
+
+#primary .content
+  padding: $space-t-b
+
+button,
+input[type="button"]
+  margin: 0
+  font-size: 0.9em
+  text-align: left
+  border-color: rgba(255,255,255,0.2)
+  background: transparent
+
 
 @media screen and (min-width: $breakpoint)
   #primary
@@ -39,54 +99,29 @@ $nav-col-min-width: 330px
     box-sizing: border-box
     overflow: auto
 
-  .fixsearch .search-wrap,
-  .search-wrap
+  .fixsearch #secondary .top-bar,
+  #secondary .top-bar
     position: fixed
     left: $nav-col-size
     top: 0
     right: 0
-    background: rgba(255,255,255,0.9)
     border-bottom: 1px solid $tertiary
 
   #secondary
     margin-left: $nav-col-size
-    padding-top: $space-t-b*2 + 54px
+    padding-top: $space-t-b*2 + $topBarHeight
 
-
-input#search
-  height: 54px
-  +box-shadow(#fff 0 0 40px)
-  background-color: $quadrary - #111
-  &:focus
-    background-color: $quadrary
-
-.content
-  position: relative
-
-#search
-
-#primary
-  padding: $space-t-b
-
-
-button,
-input[type="button"]
-  font-size: 0.9em
-  text-align: left
-  margin-bottom: 0.6em
-  border-color: rgba(255,255,255,0.2)
-  background: transparent
 
 //.page-wrap
 
 ul
-  border-top: 1px solid $tertiary
+  border-bottom: 1px solid $tertiary
   list-style: none
   padding: 0
   margin: 0
   li
-    padding: 0.5em 0.5em
-    border-bottom: 1px solid $tertiary
+    padding: $space-t-b/2 $space-t-b
+    border-top: 1px solid $tertiary
     &.odd
       background-color: $quadrary - #090909
     &.even
@@ -99,6 +134,16 @@ ul
     .manisch
       font-weight: normal
       float: right
+    &.same-german,
+    &.same-manisch
+      border-color: $quadrary - #090909
+    &.same-german
+      .german
+        display: none
+    &.same-manisch
+      .manisch
+        display: none
+
     .counter
       display: block
       line-height: 0.5em
@@ -117,8 +162,11 @@ ul
     button
       border-radius: 0 $radius $radius 0
 
-button.active
-  background: $secondary
+button
+  &.active
+    background: $secondary - #222
+  &:hover
+    background: $secondary + #111
 
 .ui-autocomplete
   background: #fff

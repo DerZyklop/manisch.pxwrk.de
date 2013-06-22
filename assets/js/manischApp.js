@@ -74,19 +74,6 @@
 
     ItemView.prototype.tagName = 'li';
 
-    ItemView.prototype.className = (function() {
-      var counter;
-      counter = 0;
-      return function() {
-        counter++;
-        if (counter % 2 === 0) {
-          return 'even';
-        } else {
-          return 'odd';
-        }
-      };
-    })();
-
     ItemView.prototype.initialize = function() {
       return _.bindAll(this);
     };
@@ -185,18 +172,12 @@
     ListView.prototype.requestedTranslations = new List;
 
     ListView.prototype.getItemsBySearch = function(searchParam) {
-      var searchResult,
-        _this = this;
       if (searchParam == null) {
         searchParam = false;
       }
       this.functionLog('getItemsBySearch(' + searchParam + ')');
       this.removeAllItems();
-      searchResult = this.requestedTranslations.search(searchParam);
-      console.log(searchResult.models);
-      return _.each(searchResult.models, function(item) {
-        return _this.appendItem(item);
-      });
+      return this.requestedTranslations.search(searchParam);
     };
 
     ListView.prototype.getItemsByCategory = function(categoryName) {
@@ -204,7 +185,7 @@
       jQuery('.sort.active').removeClass('active');
       jQuery('#' + categoryName).addClass('active');
       this.removeAllItems();
-      return this.allTranslations.byCategory(categoryName);
+      return this.requestedTranslations = this.allTranslations.byCategory(categoryName);
     };
 
     ListView.prototype.appendItem = function(item) {
@@ -217,16 +198,49 @@
       return $(this.el).append(itemView.render(this.itemTmpl).el);
     };
 
+    ListView.prototype.getClassName = (function() {
+      var itemsCounter, latestTranslation, translationsCounter;
+      latestTranslation = false;
+      translationsCounter = 0;
+      itemsCounter = 0;
+      return function(item, collection) {
+        var result;
+        if (latestTranslation.german === item.toJSON().german) {
+          result = 'same-german';
+        } else if (latestTranslation.manisch === item.toJSON().manisch) {
+          result = 'same-manisch';
+        } else {
+          result = '';
+          translationsCounter++;
+        }
+        if (translationsCounter % 2 === 0) {
+          result += ' even';
+        } else {
+          result += ' odd';
+        }
+        itemsCounter++;
+        if (itemsCounter === collection.length) {
+          translationsCounter = 0;
+          itemsCounter = 0;
+          latestTranslation = false;
+        } else {
+          latestTranslation = item.toJSON();
+        }
+        return result;
+      };
+    })();
+
     ListView.prototype.appendItems = function(collection) {
       var html,
         _this = this;
-      this.requestedTranslations = collection;
+      console.log('collection: ' + collection);
       html = '';
       _.each(collection.models, function(item) {
         var itemView;
         item.set('currentlyVisible', true);
         itemView = new ItemView({
-          model: item
+          model: item,
+          className: _this.getClassName(item, collection)
         });
         return html += itemView.render(_this.itemTmpl).el.outerHTML;
       });
@@ -246,7 +260,6 @@
       t = false;
       return (function() {
         if (t === false) {
-          console.log('get the item.html');
           jQuery.ajax({
             url: 'site/templates/item.html',
             async: false,
@@ -296,17 +309,16 @@
     AppView.prototype.searchTimeout = false;
 
     AppView.prototype.stopSearch = function() {
-      console.log('stopSearch');
       return clearTimeout(this.searchTimeout);
     };
 
-    AppView.prototype.performScrollCheck = function(navHeight) {
+    AppView.prototype.performScrollCheck = function() {
       if (jQuery('body').hasClass('fixsearch')) {
-        if (jQuery(window).scrollTop() < navHeight) {
+        if (jQuery(window).scrollTop() < this.navHeight) {
           return jQuery('body').removeClass('fixsearch');
         }
       } else {
-        if (jQuery(window).scrollTop() > navHeight) {
+        if (jQuery(window).scrollTop() > this.navHeight) {
           return jQuery('body').addClass('fixsearch');
         }
       }
@@ -316,9 +328,28 @@
       'click .sort': 'getItemsByCategory'
     };
 
-    AppView.prototype.initialize = function() {
-      var navHeight,
+    AppView.prototype.performSearch = function(event) {
+      var id, performSearchResult, val,
         _this = this;
+      val = jQuery(event.target).val();
+      id = jQuery(event.target).attr('id');
+      if (this.valueHasChanged(val, id)) {
+        if (val === '') {
+          clearTimeout(this.searchTimeout);
+          performSearchResult = this.list.getItemsBySearch();
+          return this.list.appendItems(performSearchResult);
+        } else {
+          clearTimeout(this.searchTimeout);
+          return this.searchTimeout = setTimeout(function() {
+            performSearchResult = _this.list.getItemsBySearch(val);
+            return _this.list.appendItems(performSearchResult);
+          }, 10);
+        }
+      }
+    };
+
+    AppView.prototype.initialize = function() {
+      var _this = this;
       this.functionLog('initialize()');
       _.bindAll(this);
       this.list.allTranslations.fetch({
@@ -338,33 +369,20 @@
         return _this.list.appendItems(_this.list.getItemsByCategory(categoryName));
       });
       jQuery('#search').on('keyup', function(event) {
-        var id, val;
-        val = jQuery(event.target).val();
-        id = jQuery(event.target).attr('id');
-        if (_this.valueHasChanged(val, id)) {
-          if (val === '') {
-            clearTimeout(_this.searchTimeout);
-            return _this.list.getItemsBySearch();
-          } else {
-            clearTimeout(_this.searchTimeout);
-            return _this.searchTimeout = setTimeout(function() {
-              return _this.list.getItemsBySearch(val);
-            }, 10);
-          }
-        }
+        return _this.performSearch(event);
       });
-      navHeight = jQuery('.search-wrap').offset().top;
+      this.navHeight = jQuery('#secondary .top-bar').offset().top;
       jQuery(window).on('scroll', function() {
-        return _this.performScrollCheck(navHeight);
+        return _this.performScrollCheck();
       });
       jQuery(window).on('resize', function() {
         jQuery('body').removeClass('fixsearch');
-        navHeight = jQuery('.search-wrap').offset().top;
-        return _this.performScrollCheck(navHeight);
+        _this.navHeight = jQuery('#secondary .top-bar').offset().top;
+        return _this.performScrollCheck();
       });
       return setTimeout(function() {
         return jQuery('body').animate({
-          scrollTop: jQuery('.search-wrap').offset().top
+          scrollTop: jQuery('#secondary .top-bar').offset().top
         }, 400);
       }, 500);
     };

@@ -8,24 +8,41 @@ class AppView extends pxwrkHelpersForViews
   searchTimeout: false
 
   stopSearch: ->
-    console.log 'stopSearch'
     clearTimeout @searchTimeout
 
-  performScrollCheck: (navHeight) ->
+  performScrollCheck: () ->
     if jQuery('body').hasClass('fixsearch')
 
-      if jQuery(window).scrollTop() < navHeight
+      if jQuery(window).scrollTop() < @navHeight
         jQuery('body').removeClass('fixsearch')
 
     else
 
-      if jQuery(window).scrollTop() > navHeight
+      if jQuery(window).scrollTop() > @navHeight
         jQuery('body').addClass('fixsearch')
 
   events:
     # TODO: hier stimmt irgendwas nicht... die events funktionieren nicht
     # TODO: das click .sort element ist doppelt ( jQuery(...).on 'click' ... )
     'click .sort': 'getItemsByCategory'
+
+  performSearch: (event) ->
+    val = jQuery(event.target).val()
+    id = jQuery(event.target).attr('id')
+
+
+    if @valueHasChanged(val, id)
+
+      if val == ''
+        clearTimeout @searchTimeout
+        performSearchResult = @list.getItemsBySearch()
+        @list.appendItems(performSearchResult)
+      else
+        clearTimeout @searchTimeout
+        @searchTimeout = setTimeout =>
+          performSearchResult = @list.getItemsBySearch(val)
+          @list.appendItems(performSearchResult)
+        , 10
 
   initialize: ->
     @functionLog 'initialize()'
@@ -48,41 +65,30 @@ class AppView extends pxwrkHelpersForViews
       @list.appendItems( @list.getItemsByCategory(categoryName) )
 
     jQuery('#search').on 'keyup', (event) =>
-
-      val = jQuery(event.target).val()
-      id = jQuery(event.target).attr('id')
-
-
-      if @valueHasChanged(val, id)
-
-        if val == ''
-          clearTimeout @searchTimeout
-          @list.getItemsBySearch()
-        else
-          clearTimeout @searchTimeout
-          @searchTimeout = setTimeout =>
-            @list.getItemsBySearch(val)
-          , 10
+      @performSearch(event)
 
 
 
 
 
-    navHeight = jQuery('.search-wrap').offset().top
+
+    @navHeight = jQuery('#secondary .top-bar').offset().top
 
 
     jQuery(window).on 'scroll', =>
-      @performScrollCheck(navHeight)
+      @performScrollCheck()
 
 
     jQuery(window).on 'resize', =>
       jQuery('body').removeClass('fixsearch')
-      navHeight = jQuery('.search-wrap').offset().top
-      @performScrollCheck(navHeight)
+      @navHeight = jQuery('#secondary .top-bar').offset().top
+      @performScrollCheck()
 
 
     setTimeout ->
-      jQuery('body').animate({scrollTop: jQuery('.search-wrap').offset().top}, 400)
+      jQuery('body').animate({scrollTop: jQuery('#secondary .top-bar').offset().top}, 400)
     , 500
+
+
 
 App = new AppView

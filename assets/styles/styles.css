@@ -21,12 +21,12 @@ hr {
 }
 
 ::-moz-selection {
-  background: #aa9999;
+  background: #99bbbb;
   color: #fefefe;
 }
 
 ::selection {
-  background: #aa9999;
+  background: #99bbbb;
   color: #fefefe;
 }
 
@@ -95,13 +95,13 @@ img.right {
 }
 
 body {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.8em;
-  font-family: "Droid Sans", helvetica;
+  font-family: "Droid Serif", helvetica, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: Amaranth, helvetica;
+  font-family: "Droid Sans", helvetica, sans-serif;
   margin: 20px 0;
   line-height: 1.4em;
 }
@@ -113,7 +113,7 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
 }
 
 h1, h2 {
-  color: #aa9999;
+  color: #99bbbb;
 }
 
 h3, h4, h5, h6 {
@@ -145,7 +145,7 @@ h6 {
 }
 
 a {
-  color: #aa9999;
+  color: #99bbbb;
 }
 a:hover {
   color: #990000;
@@ -193,7 +193,7 @@ button, .btn, .button, input[type="button"], input[type="submit"], input[type="r
   color: #fefefe;
   text-align: center;
   text-decoration: none;
-  background: #aa9999;
+  background: #99bbbb;
   border: 1px solid #fefefe;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
@@ -208,7 +208,7 @@ button, .btn, .button, input[type="button"], input[type="submit"], input[type="r
 button:hover, .btn:hover, .button:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover {
   text-decoration: none;
   color: #fefefe;
-  background: #776666;
+  background: #668888;
 }
 button a, .btn a, .button a, input[type="button"] a, input[type="submit"] a, input[type="reset"] a {
   text-decoration: none;
@@ -391,7 +391,7 @@ a.tag:hover {
   -ms-border-radius: 6px;
   -o-border-radius: 6px;
   border-radius: 6px;
-  background-color: #aa9999;
+  background-color: #99bbbb;
   -webkit-background-size: 30px 30px;
   -moz-background-size: 30px 30px;
   -o-background-size: 30px 30px;
@@ -420,32 +420,99 @@ a.tag:hover {
   white-space: nowrap;
 }
 
+h1 {
+  font-size: 1.1em;
+  line-height: 36px;
+  margin: 0;
+  color: #99bbbb;
+}
+
 #primary {
   padding-bottom: 20px;
   background-color: #333333;
+}
+#primary .top-bar {
+  display: block;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+  border-bottom: 1px solid #444444;
 }
 
 #secondary {
   position: relative;
 }
 
-.search-wrap {
-  padding: 20px;
+#bottom-shadow {
+  background: linear-gradient(transparent, #000000);
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 30%;
+  right: 0;
+  opacity: 0.3;
+  -webkit-transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 
-.fixsearch .search-wrap {
+#secondary .top-bar {
+  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(240, 240, 240, 0.8));
+  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(240, 240, 240, 0.8));
+}
+
+.fixsearch #secondary .top-bar {
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
-  background: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid #bbbbbb;
 }
 .fixsearch #secondary {
   padding-top: 94px;
 }
 
-@media screen and (min-width: 850px) {
+input#search,
+#primary .top-bar {
+  min-height: 36px;
+  padding: 20px;
+}
+
+input#search {
+  min-height: 76px;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  border: none;
+  display: block;
+  background-color: #ededed;
+}
+input#search:focus {
+  background-color: #fefefe;
+}
+
+.content {
+  position: relative;
+}
+.content button {
+  margin-bottom: 20px;
+}
+
+#primary .content {
+  padding: 20px;
+}
+
+button,
+input[type="button"] {
+  margin: 0;
+  font-size: 0.9em;
+  text-align: left;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: transparent;
+}
+
+@media screen and (min-width: 780px) {
   #primary {
     position: fixed;
     width: 30%;
@@ -456,58 +523,29 @@ a.tag:hover {
     overflow: auto;
   }
 
-  .fixsearch .search-wrap,
-  .search-wrap {
+  .fixsearch #secondary .top-bar,
+  #secondary .top-bar {
     position: fixed;
     left: 30%;
     top: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.9);
     border-bottom: 1px solid #bbbbbb;
   }
 
   #secondary {
     margin-left: 30%;
-    padding-top: 94px;
+    padding-top: 76px;
   }
 }
-input#search {
-  height: 54px;
-  -webkit-box-shadow: white 0 0 40px;
-  -moz-box-shadow: white 0 0 40px;
-  box-shadow: white 0 0 40px;
-  background-color: #ededed;
-}
-input#search:focus {
-  background-color: #fefefe;
-}
-
-.content {
-  position: relative;
-}
-
-#primary {
-  padding: 20px;
-}
-
-button,
-input[type="button"] {
-  font-size: 0.9em;
-  text-align: left;
-  margin-bottom: 0.6em;
-  border-color: rgba(255, 255, 255, 0.2);
-  background: transparent;
-}
-
 ul {
-  border-top: 1px solid #bbbbbb;
+  border-bottom: 1px solid #bbbbbb;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 ul li {
-  padding: 0.5em 0.5em;
-  border-bottom: 1px solid #bbbbbb;
+  padding: 10px 20px;
+  border-top: 1px solid #bbbbbb;
 }
 ul li.odd {
   background-color: whitesmoke;
@@ -525,6 +563,15 @@ ul li .german {
 ul li .manisch {
   font-weight: normal;
   float: right;
+}
+ul li.same-german, ul li.same-manisch {
+  border-color: whitesmoke;
+}
+ul li.same-german .german {
+  display: none;
+}
+ul li.same-manisch .manisch {
+  display: none;
 }
 ul li .counter {
   display: block;
@@ -545,7 +592,10 @@ ul li .counter {
 }
 
 button.active {
-  background: #990000;
+  background: #770000;
+}
+button:hover {
+  background: #aa1111;
 }
 
 .ui-autocomplete {

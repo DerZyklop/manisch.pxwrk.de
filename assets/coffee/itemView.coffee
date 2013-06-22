@@ -2,16 +2,6 @@ class ItemView extends pxwrkHelpersForViews
 
   tagName: 'li'
 
-  className: (->
-    counter = 0
-    return ->
-      counter++
-      if counter%2 == 0
-        return 'even'
-      else
-        return 'odd'
-  )()
-
   initialize: ->
     _.bindAll @
 
