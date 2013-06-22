@@ -276,7 +276,10 @@
       })();
     })();
 
-    ListView.prototype.initialize = function() {};
+    ListView.prototype.initialize = function() {
+      jQuery('#list').html('<ul></ul>');
+      return this.el = '#list ul';
+    };
 
     ListView.prototype.render = function() {
       return this.functionLog('render()');
@@ -354,9 +357,7 @@
       _.bindAll(this);
       this.list.allTranslations.fetch({
         url: 'content/manisch.json',
-        success: function(model) {
-          return _this.list.appendItems(_this.list.allTranslations);
-        }
+        success: function(model) {}
       });
       this.list.render(this.list.getItemsByCategory('all'));
       this.setFocusToFirstInput();

@@ -6,7 +6,7 @@
 
 $nav-col-size: 30%
 $nav-col-min-width: 330px
-$topBarHeight: 36px
+$topBarHeight: 26px
 
 h1
   font-size: 1em
@@ -25,12 +25,15 @@ h1
     border-bottom: 1px solid #444
   .authorinfo
     a
+      border-top: 1px solid transparent
+      border-bottom: 1px solid transparent
       color: #666
-      &:hover
-        color: $quadrary
+    &:hover a
+      border-color: rgba(255,255,255,0.2)
+      color: $quadrary
 
 a
-  +transition(color 0.3s)
+  +transition(color 0.3s, border-color 0.3s)
 
 #secondary
   position: relative
@@ -63,12 +66,12 @@ a
     padding-top: $space-t-b*2 + $topBarHeight
 
 
-input#search,
 #primary .top-bar
   min-height: $topBarHeight
   padding: $space-t-b
 
 input#search
+  line-height: $topBarHeight
   min-height: $topBarHeight + 2*$space-t-b
   border-radius: 0
   box-shadow: none
@@ -85,14 +88,20 @@ input#search
   position: relative
   button
     margin-bottom: $space-t-b
+    &:last-child
+      margin-bottom: 0
 
+.bottom-list-info,
 .authorinfo
   text-align: center
-  padding: $space-t-b
-  font-size: 0.8em
-  +transition(opacity 0.3s)
   a
+    display: block
+    padding: $space-t-b
     text-decoration: none
+
+.authorinfo
+  font-size: 14px
+  +transition(opacity 0.3s)
 
 #primary .content
   padding: $space-t-b
@@ -102,7 +111,7 @@ input[type="button"]
   margin: 0
   font-size: 0.9em
   text-align: left
-  border-color: rgba(255,255,255,0.2)
+  border-color: rgba(255,255,255,0.1)
   background: transparent
 
 

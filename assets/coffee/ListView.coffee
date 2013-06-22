@@ -101,6 +101,8 @@ class ListView extends pxwrkHelpersForViews
   )()
 
   initialize: ->
+    jQuery('#list').html('<ul></ul>')
+    @el = '#list ul'
 
   render: ->
     @functionLog 'render()'

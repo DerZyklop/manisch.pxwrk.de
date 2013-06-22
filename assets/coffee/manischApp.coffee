@@ -51,7 +51,7 @@ class AppView extends pxwrkHelpersForViews
     @list.allTranslations.fetch
       url: 'content/manisch.json'
       success: (model) =>
-        @list.appendItems(@list.allTranslations)
+        #@list.appendItems(@list.allTranslations)
 
     @list.render(@list.getItemsByCategory('all'))
 
