@@ -564,7 +564,10 @@ ul li .manisch {
   font-weight: normal;
   float: right;
 }
-ul li.same-german, ul li.same-manisch {
+ul li.same-german.odd, ul li.same-manisch.odd {
+  border-color: #e9e9e9;
+}
+ul li.same-german.even, ul li.same-manisch.even {
   border-color: whitesmoke;
 }
 ul li.same-german .german {
