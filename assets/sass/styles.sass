@@ -9,7 +9,7 @@ $nav-col-min-width: 330px
 $topBarHeight: 36px
 
 h1
-  font-size: 1.1em
+  font-size: 1em
   line-height: $topBarHeight
   margin: 0
   color: $primary
@@ -23,6 +23,14 @@ h1
     background: rgba(0,0,0,0.1)
     background: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.2))
     border-bottom: 1px solid #444
+  .authorinfo
+    a
+      color: #666
+      &:hover
+        color: $quadrary
+
+a
+  +transition(color 0.3s)
 
 #secondary
   position: relative
@@ -67,15 +75,24 @@ input#search
   margin: 0
   border: none
   display: block
-  background-color: $quadrary - #111
+  //background-color: $quadrary - #111
+  background: linear-gradient($quadrary - #111,#fff)
   &:focus
-    background-color: $quadrary
+    background: $quadrary
 
 
 .content
   position: relative
   button
     margin-bottom: $space-t-b
+
+.authorinfo
+  text-align: center
+  padding: $space-t-b
+  font-size: 0.8em
+  +transition(opacity 0.3s)
+  a
+    text-decoration: none
 
 #primary .content
   padding: $space-t-b
@@ -122,6 +139,7 @@ ul
   li
     padding: $space-t-b/2 $space-t-b
     border-top: 1px solid $tertiary
+    +transition(background 0.3s)
     &.odd
       background-color: $quadrary - #090909
     &.even
