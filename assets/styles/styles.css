@@ -522,13 +522,13 @@ input#search:focus {
 
 #bottom-list-info {
   text-align: left;
-  padding: 30px 40px;
 }
 #bottom-list-info.inactive {
   display: none;
 }
 #bottom-list-info p {
   margin-top: 0;
+  padding: 40px 40px;
 }
 #bottom-list-info .magic-link {
   border-color: #bbbbbb;
@@ -562,6 +562,7 @@ input#search:focus {
   text-align: left;
   border-color: rgba(255, 255, 255, 0.1);
   background: transparent;
+  font-family: "Droid Sans", helvetica, sans-serif;
 }
 
 #list-view ul li:hover {
