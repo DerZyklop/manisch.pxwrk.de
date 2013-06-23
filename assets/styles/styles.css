@@ -427,6 +427,19 @@ h1 {
   color: #88aaaa;
 }
 
+#primary,
+#search {
+  background-repeat: repeat;
+}
+
+#primary {
+  background-image: url("../img/noise-dark.png");
+}
+
+#search {
+  background-image: url("../img/noise-light.png");
+}
+
 #primary {
   padding-bottom: 20px;
   background-color: #333333;
@@ -499,7 +512,6 @@ input#search {
   margin: 0;
   border: none;
   display: block;
-  background: linear-gradient(#ededed, #ffffff);
 }
 input#search:focus {
   background: #fefefe;
@@ -583,6 +595,11 @@ input#search:focus {
 #item-detail-view .content {
   background: #fefefe;
   padding-bottom: 1px;
+}
+
+ul li,
+input#search {
+  padding: 10px 20px;
 }
 
 ul {

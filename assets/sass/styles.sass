@@ -14,9 +14,21 @@ h1
   margin: 0
   color: $primary
 
+#primary,
+#search
+  background: 
+    repeat: repeat
+#primary
+  background: 
+    image: url('../img/noise-dark.png')
+#search
+  background: 
+    image: url('../img/noise-light.png')
+
 #primary
   padding-bottom: $space-t-b
-  background-color: #333
+  background: 
+    color: #333
   .top-bar
     display: block
     text-decoration: none
@@ -76,7 +88,7 @@ input#search
   border: none
   display: block
   //background-color: $quadrary - #111
-  background: linear-gradient($quadrary - #111,#fff)
+  //background: linear-gradient($quadrary - #111,#fff)
   &:focus
     background: $quadrary
 
@@ -148,6 +160,10 @@ input#search
     // TODO : Wieder raus wenn nicht mehr benötigt
     padding-bottom: 1px
 
+
+ul li,
+input#search
+  padding: $space-t-b/2 $space-t-b
 
 ul
   border-bottom: 1px solid $tertiary
