@@ -1,16 +1,15 @@
 class AppView extends pxwrkHelpersForViews
 
-  list: new ListView
+  listView: new ListView
 
   navHeight: jQuery('#secondary .top-bar').offset().top
 
   setFocusToFirstInput: ->
     #jQuery('input:visible:first:text').focus()
 
-  searchTimeout: false
-
-  stopSearch: ->
-    clearTimeout @searchTimeout
+  checkNavHeight: ->
+    jQuery('body').removeClass('fixsearch')
+    @navHeight = jQuery('#secondary .top-bar').offset().top
 
   performScrollCheck: () ->
     if jQuery('body').hasClass('fixsearch')
@@ -23,33 +22,24 @@ class AppView extends pxwrkHelpersForViews
       if jQuery(window).scrollTop() > @navHeight
         jQuery('body').addClass('fixsearch')
 
-  checkNavHeight: ->
-    jQuery('body').removeClass('fixsearch')
-    @navHeight = jQuery('#secondary .top-bar').offset().top
-
-  searchRequest: (target) ->
+  searchRequest: (val, id) ->
     @functionLog 'searchRequest()'
-    val = jQuery(target).val()
-    id = jQuery(target).attr('id')
 
+    if jQuery('#search').val() != val
+      jQuery('#search').val(val)
 
     if @valueHasChanged(val, id)
 
       if val == ''
-        clearTimeout @searchTimeout
-        @list.getItemsBySearch()
+        @listView.getItemsBySearch()
       else
-        clearTimeout @searchTimeout
-        @searchTimeout = setTimeout =>
-          @list.getItemsBySearch(val)
-        , 10
+        @listView.getItemsBySearch(val)
 
   categoryRequest: (category) ->
-      @stopSearch()
       jQuery('#search').val('')
       @setFocusToFirstInput()
 
-      @list.getItemsByCategory(category)
+      @listView.getItemsByCategory(category)
 
       jQuery('.active').removeClass 'active'
       jQuery('#'+category+'-btn').addClass 'active'
@@ -63,15 +53,11 @@ class AppView extends pxwrkHelpersForViews
     @functionLog 'initialize()'
     _.bindAll @
 
-    @list.allTranslations.fetch
+    @listView.allTranslations.fetch
       url: 'content/manisch.json'
       async: false
 
     @setFocusToFirstInput()
-
-    jQuery('#search').on 'keyup', (event) =>
-      @searchRequest(event.target)
-
 
     jQuery(window).on 'scroll', =>
       @performScrollCheck()
@@ -90,14 +76,28 @@ class AppView extends pxwrkHelpersForViews
 Router = Backbone.Router.extend
 
   routes:
-    ":cat": "cat"
+    ":categoryName(/:searchval)": "cat"
 
-  cat: (category) ->
+  currentCat: 'alle'
+
+  cat: (categoryName, searchval = '') ->
     console.log 'GO!!!!!!'
-    @app.categoryRequest(category)
+
+    @app.categoryRequest(categoryName)
+    @app.searchRequest(searchval, 'search')
+    @app.listView.render()
+
+    @currentCat = categoryName
 
   initialize: ->
     @app = new AppView
+
+    that = this
+    jQuery('#search').on 'keyup', ->
+      url = that.currentCat
+      if jQuery(this).val()
+        url += '/'+jQuery(this).val()
+      that.navigate url, {trigger: true}
 
   search: (query, page) ->
 

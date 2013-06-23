@@ -232,7 +232,8 @@
       }
       this.functionLog('getItemsBySearch(' + searchParam + ')');
       this.removeAllItems();
-      return this.visibleTranslations.reset(this.categoryTranslations.search(searchParam).toJSON());
+      this.visibleTranslations.reset(this.categoryTranslations.search(searchParam).toJSON());
+      return this;
     };
 
     ListView.prototype.getItemsByCategory = function(categoryName) {
@@ -241,7 +242,8 @@
       jQuery('#' + categoryName).addClass('active');
       this.removeAllItems();
       this.categoryTranslations = this.allTranslations.byCategory(categoryName);
-      return this.visibleTranslations.reset(this.categoryTranslations.toJSON());
+      this.visibleTranslations.reset(this.categoryTranslations.toJSON());
+      return this;
     };
 
     ListView.prototype.appendItem = function(item) {
@@ -287,12 +289,12 @@
       };
     })();
 
-    ListView.prototype.appendItems = function(collection) {
+    ListView.prototype.appendItems = function() {
       var html,
         _this = this;
       this.functionLog('appendItems()');
       html = '';
-      return _.each(collection.models, function(item) {
+      return _.each(this.visibleTranslations.models, function(item) {
         return _this.appendItem(item);
       });
     };
@@ -324,16 +326,13 @@
     })();
 
     ListView.prototype.initialize = function() {
-      var _this = this;
       jQuery('#list').html('<ul></ul>');
-      this.el = '#list ul';
-      return this.visibleTranslations.on('reset', function(collection) {
-        return _this.appendItems(collection);
-      });
+      return this.el = '#list ul';
     };
 
     ListView.prototype.render = function() {
-      return this.functionLog('render()');
+      this.functionLog('render()');
+      return this.appendItems();
     };
 
     return ListView;
@@ -354,16 +353,15 @@
       return AppView.__super__.constructor.apply(this, arguments);
     }
 
-    AppView.prototype.list = new ListView;
+    AppView.prototype.listView = new ListView;
 
     AppView.prototype.navHeight = jQuery('#secondary .top-bar').offset().top;
 
     AppView.prototype.setFocusToFirstInput = function() {};
 
-    AppView.prototype.searchTimeout = false;
-
-    AppView.prototype.stopSearch = function() {
-      return clearTimeout(this.searchTimeout);
+    AppView.prototype.checkNavHeight = function() {
+      jQuery('body').removeClass('fixsearch');
+      return this.navHeight = jQuery('#secondary .top-bar').offset().top;
     };
 
     AppView.prototype.performScrollCheck = function() {
@@ -378,35 +376,24 @@
       }
     };
 
-    AppView.prototype.checkNavHeight = function() {
-      jQuery('body').removeClass('fixsearch');
-      return this.navHeight = jQuery('#secondary .top-bar').offset().top;
-    };
-
-    AppView.prototype.searchRequest = function(target) {
-      var id, val,
-        _this = this;
+    AppView.prototype.searchRequest = function(val, id) {
       this.functionLog('searchRequest()');
-      val = jQuery(target).val();
-      id = jQuery(target).attr('id');
+      if (jQuery('#search').val() !== val) {
+        jQuery('#search').val(val);
+      }
       if (this.valueHasChanged(val, id)) {
         if (val === '') {
-          clearTimeout(this.searchTimeout);
-          return this.list.getItemsBySearch();
+          return this.listView.getItemsBySearch();
         } else {
-          clearTimeout(this.searchTimeout);
-          return this.searchTimeout = setTimeout(function() {
-            return _this.list.getItemsBySearch(val);
-          }, 10);
+          return this.listView.getItemsBySearch(val);
         }
       }
     };
 
     AppView.prototype.categoryRequest = function(category) {
-      this.stopSearch();
       jQuery('#search').val('');
       this.setFocusToFirstInput();
-      this.list.getItemsByCategory(category);
+      this.listView.getItemsByCategory(category);
       jQuery('.active').removeClass('active');
       return jQuery('#' + category + '-btn').addClass('active');
     };
@@ -415,14 +402,11 @@
       var _this = this;
       this.functionLog('initialize()');
       _.bindAll(this);
-      this.list.allTranslations.fetch({
+      this.listView.allTranslations.fetch({
         url: 'content/manisch.json',
         async: false
       });
       this.setFocusToFirstInput();
-      jQuery('#search').on('keyup', function(event) {
-        return _this.searchRequest(event.target);
-      });
       jQuery(window).on('scroll', function() {
         return _this.performScrollCheck();
       });
@@ -443,14 +427,33 @@
 
   Router = Backbone.Router.extend({
     routes: {
-      ":cat": "cat"
+      ":categoryName(/:searchval)": "cat"
     },
-    cat: function(category) {
+    currentCat: 'alle',
+    cat: function(categoryName, searchval) {
+      if (searchval == null) {
+        searchval = '';
+      }
       console.log('GO!!!!!!');
-      return this.app.categoryRequest(category);
+      this.app.categoryRequest(categoryName);
+      this.app.searchRequest(searchval, 'search');
+      this.app.listView.render();
+      return this.currentCat = categoryName;
     },
     initialize: function() {
-      return this.app = new AppView;
+      var that;
+      this.app = new AppView;
+      that = this;
+      return jQuery('#search').on('keyup', function() {
+        var url;
+        url = that.currentCat;
+        if (jQuery(this).val()) {
+          url += '/' + jQuery(this).val();
+        }
+        return that.navigate(url, {
+          trigger: true
+        });
+      });
     },
     search: function(query, page) {}
   });
