@@ -66,7 +66,6 @@
     };
 
     ItemDetailView.prototype.render = function() {
-      jQuery('body').append(this.el);
       return jQuery(this.el).css({
         'background': '#000',
         'z-index': '200',
@@ -79,7 +78,7 @@
     };
 
     ItemDetailView.prototype.unrender = function() {
-      return jQuery('#dark-overlay').remove();
+      return this.remove();
     };
 
     return ItemDetailView;
@@ -129,6 +128,17 @@
       return _.bindAll(this);
     };
 
+    ItemView.prototype.events = {
+      'click': 'itemDetail'
+    };
+
+    ItemView.prototype.itemDetail = function() {
+      this.itemDetailView = new ItemDetailView({
+        model: this.model
+      });
+      return this.itemDetailView.render();
+    };
+
     ItemView.prototype.render = function(tmpl) {
       this.functionLog('ItemView.render()');
       if (tmpl) {
@@ -141,7 +151,7 @@
 
     ItemView.prototype.unrender = function() {
       this.functionLog('ItemView.unrender()');
-      return $(this.el).remove();
+      return this.remove();
     };
 
     return ItemView;
@@ -218,7 +228,7 @@
       return ListView.__super__.constructor.apply(this, arguments);
     }
 
-    ListView.prototype.el = '#list';
+    ListView.prototype.el = '#list ul';
 
     ListView.prototype.allTranslations = new List;
 
@@ -231,7 +241,7 @@
         searchParam = false;
       }
       this.functionLog('getItemsBySearch(' + searchParam + ')');
-      this.removeAllItems();
+      this.unrender();
       this.visibleTranslations.reset(this.categoryTranslations.search(searchParam).toJSON());
       return this;
     };
@@ -240,7 +250,7 @@
       this.functionLog('getItemsByCategory()');
       jQuery('.sort.active').removeClass('active');
       jQuery('#' + categoryName).addClass('active');
-      this.removeAllItems();
+      this.unrender();
       this.categoryTranslations = this.allTranslations.byCategory(categoryName);
       this.visibleTranslations.reset(this.categoryTranslations.toJSON());
       return this;
@@ -299,10 +309,6 @@
       });
     };
 
-    ListView.prototype.removeAllItems = function() {
-      return jQuery(this.el).html('');
-    };
-
     ListView.prototype.itemTmpl = (function() {
       var t,
         _this = this;
@@ -325,14 +331,15 @@
       })();
     })();
 
-    ListView.prototype.initialize = function() {
-      jQuery('#list').html('<ul></ul>');
-      return this.el = '#list ul';
-    };
+    ListView.prototype.initialize = function() {};
 
     ListView.prototype.render = function() {
       this.functionLog('render()');
       return this.appendItems();
+    };
+
+    ListView.prototype.unrender = function() {
+      return jQuery(this.el).html('');
     };
 
     return ListView;
@@ -427,7 +434,7 @@
 
   Router = Backbone.Router.extend({
     routes: {
-      ":categoryName(/:searchval)": "cat"
+      "cat/:categoryName(/search/:searchval)": "cat"
     },
     currentCat: 'alle',
     cat: function(categoryName, searchval) {
@@ -446,9 +453,9 @@
       that = this;
       return jQuery('#search').on('keyup', function() {
         var url;
-        url = that.currentCat;
+        url = 'cat/' + that.currentCat;
         if (jQuery(this).val()) {
-          url += '/' + jQuery(this).val();
+          url += '/search/' + jQuery(this).val();
         }
         return that.navigate(url, {
           trigger: true

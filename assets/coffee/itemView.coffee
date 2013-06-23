@@ -2,16 +2,16 @@ class ItemView extends pxwrkHelpersForViews
 
   tagName: 'li'
 
-  #itemDetailView: new ItemDetailView
-
   initialize: ->
     _.bindAll @
 
-#  events:
-#    'click': 'itemDetail'
-#
-#  itemDetail: ->
-#    @itemDetailView.render()
+  events:
+    'click': 'itemDetail'
+
+  itemDetail: ->
+    @itemDetailView = new ItemDetailView
+      model: @model
+    @itemDetailView.render()
 
   render: (tmpl) ->
     @functionLog 'ItemView.render()'
@@ -24,4 +24,4 @@ class ItemView extends pxwrkHelpersForViews
 
   unrender: ->
     @functionLog 'ItemView.unrender()'
-    $(@el).remove()
+    @remove()

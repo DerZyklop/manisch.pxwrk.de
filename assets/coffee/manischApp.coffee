@@ -76,7 +76,7 @@ class AppView extends pxwrkHelpersForViews
 Router = Backbone.Router.extend
 
   routes:
-    ":categoryName(/:searchval)": "cat"
+    "cat/:categoryName(/search/:searchval)": "cat"
 
   currentCat: 'alle'
 
@@ -94,9 +94,9 @@ Router = Backbone.Router.extend
 
     that = this
     jQuery('#search').on 'keyup', ->
-      url = that.currentCat
+      url = 'cat/'+that.currentCat
       if jQuery(this).val()
-        url += '/'+jQuery(this).val()
+        url += '/search/'+jQuery(this).val()
       that.navigate url, {trigger: true}
 
   search: (query, page) ->

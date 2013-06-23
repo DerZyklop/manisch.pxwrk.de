@@ -14,7 +14,7 @@ class ItemDetailView extends pxwrkHelpersForViews
     console.log 'itemDetail()'
 
   render: ->
-    jQuery('body').append @el
+#    jQuery('body').append @el
 
     # TODO: In css-datei auslagern
     jQuery(@el).css
@@ -28,4 +28,4 @@ class ItemDetailView extends pxwrkHelpersForViews
 
   unrender: ->
     # TODO: Beim zweiten mal klappts nicht mehr
-    jQuery('#dark-overlay').remove()
+    @remove()

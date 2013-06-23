@@ -1,6 +1,6 @@
 class ListView extends pxwrkHelpersForViews
 
-  el: '#list'
+  el: '#list ul'
 
   allTranslations: new List
 
@@ -12,7 +12,7 @@ class ListView extends pxwrkHelpersForViews
   getItemsBySearch: (searchParam = false) ->
     @functionLog 'getItemsBySearch('+searchParam+')'
 
-    @removeAllItems()
+    @unrender()
 
     @visibleTranslations.reset( @categoryTranslations.search(searchParam).toJSON() )
     
@@ -24,7 +24,7 @@ class ListView extends pxwrkHelpersForViews
     jQuery('.sort.active').removeClass 'active'
     jQuery('#'+categoryName).addClass 'active'
 
-    @removeAllItems()
+    @unrender()
 
     @categoryTranslations = @allTranslations.byCategory(categoryName)
 
@@ -79,9 +79,6 @@ class ListView extends pxwrkHelpersForViews
     _.each @visibleTranslations.models, (item) =>
       @appendItem item
 
-  removeAllItems: ->
-    jQuery(@el).html('')
-
   itemTmpl: (->
     t = false
     return (=>
@@ -99,12 +96,10 @@ class ListView extends pxwrkHelpersForViews
   )()
 
   initialize: ->
-    jQuery('#list').html('<ul></ul>')
-    @el = '#list ul'
-
-#    @visibleTranslations.on 'reset', =>
-#      @appendItems()
 
   render: ->
     @functionLog 'render()'
     @appendItems()
+
+  unrender: ->
+    jQuery(@el).html('')
