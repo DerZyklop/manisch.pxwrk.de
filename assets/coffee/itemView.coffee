@@ -2,8 +2,18 @@ class ItemView extends pxwrkHelpersForViews
 
   tagName: 'li'
 
+  itemDetailView: new ItemDetailView
+
   initialize: ->
     _.bindAll @
+
+  events:
+    'click': 'itemDetail'
+
+  itemDetail: ->
+    console.log 'itemDetail()'
+
+    #@itemDetailView.render()
 
   render: (tmpl) ->
     #_.templateSettings.interpolate : /\{\{(.+?)\}\}/g

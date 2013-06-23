@@ -21,10 +21,10 @@ class AppView extends pxwrkHelpersForViews
       if jQuery(window).scrollTop() > @navHeight
         jQuery('body').addClass('fixsearch')
 
-  events:
+  #events:
     # TODO: hier stimmt irgendwas nicht... die events funktionieren nicht
     # TODO: das click .sort element ist doppelt ( jQuery(...).on 'click' ... )
-    'click .sort': 'getItemsByCategory'
+    #'click .sort': 'getItemsByCategory'
 
   performSearch: (event) ->
     val = jQuery(event.target).val()
@@ -35,13 +35,11 @@ class AppView extends pxwrkHelpersForViews
 
       if val == ''
         clearTimeout @searchTimeout
-        performSearchResult = @list.getItemsBySearch()
-        @list.appendItems(performSearchResult)
+        @list.getItemsBySearch()
       else
         clearTimeout @searchTimeout
         @searchTimeout = setTimeout =>
-          performSearchResult = @list.getItemsBySearch(val)
-          @list.appendItems(performSearchResult)
+          @list.getItemsBySearch(val)
         , 10
 
   initialize: ->
@@ -50,8 +48,6 @@ class AppView extends pxwrkHelpersForViews
 
     @list.allTranslations.fetch
       url: 'content/manisch.json'
-      success: (model) =>
-        #@list.appendItems(@list.allTranslations)
 
     @list.render(@list.getItemsByCategory('all'))
 
@@ -62,7 +58,8 @@ class AppView extends pxwrkHelpersForViews
       jQuery('#search').val('')
       @setFocusToFirstInput()
       categoryName = jQuery(event.target).attr('id')
-      @list.appendItems( @list.getItemsByCategory(categoryName) )
+
+      @list.getItemsByCategory(categoryName)
 
     jQuery('#search').on 'keyup', (event) =>
       @performSearch(event)

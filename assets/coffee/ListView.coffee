@@ -5,14 +5,16 @@ class ListView extends pxwrkHelpersForViews
   allTranslations: new List
 
   # TODO: 'currentlyVisible' ersetzt das hier eigentlich:
-  requestedTranslations: new List
+  categoryTranslations: new List
+
+  visibleTranslations: new List
 
   getItemsBySearch: (searchParam = false) ->
     @functionLog 'getItemsBySearch('+searchParam+')'
 
     @removeAllItems()
 
-    @requestedTranslations.search(searchParam)
+    @visibleTranslations.reset( @categoryTranslations.search(searchParam).toJSON() )
 
   getItemsByCategory: (categoryName) ->
     @functionLog 'getItemsByCategory()'
@@ -22,7 +24,9 @@ class ListView extends pxwrkHelpersForViews
 
     @removeAllItems()
 
-    @requestedTranslations = @allTranslations.byCategory(categoryName)
+    @categoryTranslations = @allTranslations.byCategory(categoryName)
+
+    @visibleTranslations.reset( @categoryTranslations.toJSON() )
 
   appendItem: (item) ->
     @functionLog 'appendItem()'
@@ -30,6 +34,7 @@ class ListView extends pxwrkHelpersForViews
     itemView = new ItemView
       model: item
       tmpl: @itemTmpl
+      className: @getClassName(item, item.collection.length)
 
     $(@el).append( itemView.render(@itemTmpl).el )
 
@@ -38,7 +43,7 @@ class ListView extends pxwrkHelpersForViews
     latestTranslation = false
     translationsCounter = 0
     itemsCounter = 0
-    return (item, collection) ->
+    return (item, amount) ->
       if (latestTranslation.german == item.toJSON().german)
         result = 'same-german'
       else if (latestTranslation.manisch == item.toJSON().manisch)
@@ -53,7 +58,7 @@ class ListView extends pxwrkHelpersForViews
         result += ' odd'
 
       itemsCounter++
-      if itemsCounter == collection.length
+      if itemsCounter == amount
         translationsCounter = 0
         itemsCounter = 0
         latestTranslation = false
@@ -65,23 +70,14 @@ class ListView extends pxwrkHelpersForViews
 
   appendItems: (collection) ->
 
-    console.log 'collection: '+collection
+    console.log 'collection: '
+    console.log collection
 
     html = ''
     _.each collection.models, (item) =>
-      item.set 'currentlyVisible', true
-
-      itemView = new ItemView
-        model: item
-        className: @getClassName(item, collection)
-
-      html += itemView.render(@itemTmpl).el.outerHTML
-
-    jQuery(@el).append( html )
+      @appendItem item
 
   removeAllItems: ->
-    _.each @allTranslations.models, (item) ->
-      item.set 'currentlyVisible', false
     jQuery(@el).html('')
 
   itemTmpl: (->
@@ -103,6 +99,9 @@ class ListView extends pxwrkHelpersForViews
   initialize: ->
     jQuery('#list').html('<ul></ul>')
     @el = '#list ul'
+
+    @visibleTranslations.on 'reset', (collection) =>
+      @appendItems collection
 
   render: ->
     @functionLog 'render()'
