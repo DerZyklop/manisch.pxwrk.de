@@ -511,10 +511,10 @@ input#search:focus {
 .content {
   position: relative;
 }
-.content button {
+.content .button {
   margin-bottom: 20px;
 }
-.content button:last-child {
+.content .button:last-child {
   margin-bottom: 0;
 }
 
@@ -541,8 +541,7 @@ input#search:focus {
   padding: 20px;
 }
 
-button,
-input[type="button"] {
+.button {
   margin: 0;
   font-size: 0.9em;
   text-align: left;
@@ -636,10 +635,10 @@ ul li .counter {
   border-radius: 0 6px 6px 0;
 }
 
-button.active {
+.button.active {
   background: #770000;
 }
-button:hover {
+.button:hover {
   background: #aa1111;
 }
 

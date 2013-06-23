@@ -69,9 +69,7 @@ class ListView extends pxwrkHelpersForViews
   )()
 
   appendItems: (collection) ->
-
-    console.log 'collection: '
-    console.log collection
+    @functionLog 'appendItems()'
 
     html = ''
     _.each collection.models, (item) =>

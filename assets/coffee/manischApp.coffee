@@ -2,8 +2,10 @@ class AppView extends pxwrkHelpersForViews
 
   list: new ListView
 
+  navHeight: jQuery('#secondary .top-bar').offset().top
+
   setFocusToFirstInput: ->
-    jQuery('input:visible:first:text').focus()
+    #jQuery('input:visible:first:text').focus()
 
   searchTimeout: false
 
@@ -21,14 +23,14 @@ class AppView extends pxwrkHelpersForViews
       if jQuery(window).scrollTop() > @navHeight
         jQuery('body').addClass('fixsearch')
 
-  #events:
-    # TODO: hier stimmt irgendwas nicht... die events funktionieren nicht
-    # TODO: das click .sort element ist doppelt ( jQuery(...).on 'click' ... )
-    #'click .sort': 'getItemsByCategory'
+  checkNavHeight: ->
+    jQuery('body').removeClass('fixsearch')
+    @navHeight = jQuery('#secondary .top-bar').offset().top
 
-  performSearch: (event) ->
-    val = jQuery(event.target).val()
-    id = jQuery(event.target).attr('id')
+  searchRequest: (target) ->
+    @functionLog 'searchRequest()'
+    val = jQuery(target).val()
+    id = jQuery(target).attr('id')
 
 
     if @valueHasChanged(val, id)
@@ -42,43 +44,40 @@ class AppView extends pxwrkHelpersForViews
           @list.getItemsBySearch(val)
         , 10
 
+  categoryRequest: (category) ->
+      @stopSearch()
+      jQuery('#search').val('')
+      @setFocusToFirstInput()
+
+      @list.getItemsByCategory(category)
+
+      jQuery('.active').removeClass 'active'
+      jQuery('#'+category+'-btn').addClass 'active'
+
+  #events:
+    # TODO: hier stimmt irgendwas nicht... die events funktionieren nicht
+    # TODO: das click .sort element ist doppelt ( jQuery(...).on 'click' ... )
+    #'click .sort': 'getItemsByCategory'
+
   initialize: ->
     @functionLog 'initialize()'
     _.bindAll @
 
     @list.allTranslations.fetch
       url: 'content/manisch.json'
-
-    @list.render(@list.getItemsByCategory('all'))
+      async: false
 
     @setFocusToFirstInput()
 
-    jQuery('.sort').on 'click', (event) =>
-      @stopSearch()
-      jQuery('#search').val('')
-      @setFocusToFirstInput()
-      categoryName = jQuery(event.target).attr('id')
-
-      @list.getItemsByCategory(categoryName)
-
     jQuery('#search').on 'keyup', (event) =>
-      @performSearch(event)
-
-
-
-
-
-
-    @navHeight = jQuery('#secondary .top-bar').offset().top
+      @searchRequest(event.target)
 
 
     jQuery(window).on 'scroll', =>
       @performScrollCheck()
 
-
     jQuery(window).on 'resize', =>
-      jQuery('body').removeClass('fixsearch')
-      @navHeight = jQuery('#secondary .top-bar').offset().top
+      @checkNavHeight()
       @performScrollCheck()
 
 
@@ -88,4 +87,25 @@ class AppView extends pxwrkHelpersForViews
 
 
 
-App = new AppView
+Router = Backbone.Router.extend
+
+  routes:
+    ":cat": "cat"
+
+  cat: (category) ->
+    console.log 'GO!!!!!!'
+    @app.categoryRequest(category)
+
+  initialize: ->
+    @app = new AppView
+
+  search: (query, page) ->
+
+router = new Router
+
+
+router.on 'route:alle', ->
+  console.log 'arg'
+
+
+Backbone.history.start()

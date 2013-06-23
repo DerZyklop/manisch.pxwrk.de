@@ -2,22 +2,19 @@ class ItemView extends pxwrkHelpersForViews
 
   tagName: 'li'
 
-  itemDetailView: new ItemDetailView
+  #itemDetailView: new ItemDetailView
 
   initialize: ->
     _.bindAll @
 
-  events:
-    'click': 'itemDetail'
-
-  itemDetail: ->
-    console.log 'itemDetail()'
-
-    #@itemDetailView.render()
+#  events:
+#    'click': 'itemDetail'
+#
+#  itemDetail: ->
+#    @itemDetailView.render()
 
   render: (tmpl) ->
-    #_.templateSettings.interpolate : /\{\{(.+?)\}\}/g
-
+    @functionLog 'ItemView.render()'
     if tmpl
       jQuery(@el).html( _.template( tmpl, @model.toJSON() ) )
     else
@@ -26,5 +23,5 @@ class ItemView extends pxwrkHelpersForViews
     @
 
   unrender: ->
-    #@functionLog 'unrender()'
+    @functionLog 'ItemView.unrender()'
     $(@el).remove()

@@ -8,7 +8,7 @@ class List extends Backbone.Collection
     # TODO: Da muss es einen einfacheren Weg geben. Sowas in richtung: @where({categorie: ...u.a. foobar... })
     # TODO: teste das hier: console.log @where({categorie: ...u.a. foobar... })
 
-    if categoryName == 'all'
+    if categoryName == 'alle'
       return @
 
     else
