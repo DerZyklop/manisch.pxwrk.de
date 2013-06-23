@@ -1,355 +1,426 @@
 [
   {
+    "id": "1",
     "german":"Aal",
     "manisch":"sabeskomatsch",
     "category": []
   },
   {
-    "german":"Abendr",
+    "id": "2",
+    "german":"Abend",
     "manisch":"ratt",
     "category": []
   },
   {
+    "id": "3",
     "german":"aber sicher!",
     "manisch":"aweles!",
     "category": []
   },
   {
+    "id": "4",
     "german":"Abort (Toilette)",
     "manisch":"tschundekär",
     "category": []
   },
   {
+    "id": "5",
     "german":"Abort (Toilette)",
     "manisch":"kinemaskerikär",
     "category": []
   },
   {
+    "id": "6",
     "german":"Achselhöhle",
     "manisch":"kak",
     "category": []
   },
   {
+    "id": "7",
     "german":"Advokat",
     "manisch":"tschinnebaskero",
     "category": []
   },
   {
+    "id": "8",
     "german":"Alkohol",
     "manisch":"katschedi",
     "category": []
   },
   {
+    "id": "9",
     "german":"alt",
     "manisch":"puri",
     "category": []
   },
   {
+    "id": "10",
     "german":"anbieten",
     "manisch":"dehlen",
     "category": []
   },
   {
+    "id": "11",
     "german":"anbinden",
     "manisch":"bannen",
     "category": []
   },
   {
+    "id": "12",
     "german":"anderer/Anderer",
     "manisch":"wawer",
     "category": []
   },
   {
+    "id": "13",
     "german":"Angst",
     "manisch":"drasch",
     "category": []
   },
   {
+    "id": "14",
     "german":"Angst",
     "manisch":"eme",
     "category": []
   },
   {
+    "id": "15",
     "german":"Angst haben",
     "manisch":"draschern",
     "category": []
   },
   {
+    "id": "16",
     "german":"ansehen",
     "manisch":"tigern",
     "category": []
   },
   {
+    "id": "17",
     "german":"Guck mal!",
     "manisch":"tigema!",
     "category": []
   },
   {
+    "id": "18",
     "german":"etwas anschauen",
     "manisch":"beräunen",
     "category": []
   },
   {
+    "id": "19",
     "german":"anziehen/ankleiden",
     "manisch":"ribern",
     "category": []
   },
   {
+    "id": "20",
     "german":"Apfel",
     "manisch":"papi, papnee",
     "category": []
   },
   {
+    "id": "21",
     "german":"Apotheke",
     "manisch":"trabengerokär",
     "category": []
   },
   {
+    "id": "22",
     "german":"Arbeit",
     "manisch":"buder",
     "category": []
   },
   {
+    "id": "23",
     "german":"Arbeit",
     "manisch":"buderpin",
     "category": []
   },
   {
+    "id": "24",
     "german":"Arbeit",
     "manisch":"maloche",
     "category": []
   },
   {
+    "id": "25",
     "german":"arbeiten",
     "manisch":"bosseln",
     "category": []
   },
   {
+    "id": "26",
     "german":"arbeiten",
     "manisch":"pudern",
     "category": []
   },
   {
+    "id": "27",
     "german":"arbeiten",
     "manisch":"malochen",
     "category": []
   },
   {
+    "id": "28",
     "german":"arbeiten",
     "manisch":"schinageln",
     "category": []
   },
   {
+    "id": "29",
     "german":"schwer/hart arbeiten",
     "manisch":"stiefmalochen",
     "category": []
   },
   {
+    "id": "30",
     "german":"Arbeiten, das",
     "manisch":"puderpin",
     "category": []
   },
   {
+    "id": "31",
     "german":"Arbeiter",
     "manisch":"budebaskro",
     "category": []
   },
   {
+    "id": "32",
     "german":"Arbeiter",
     "manisch":"malochegardsch",
     "category": []
   },
   {
+    "id": "33",
     "german":"Arbeitsstätte",
     "manisch":"maloche",
     "category": []
   },
   {
+    "id": "34",
     "german":"Ärger",
     "manisch":"koije",
     "category": []
   },
   {
+    "id": "35",
     "german":"Ärger",
     "manisch":"koijepin",
     "category": []
   },
   {
+    "id": "36",
     "german":"Ärger haben",
     "manisch":"koijern",
     "category": []
   },
   {
+    "id": "37",
     "german":"Ärgern, sich",
     "manisch":"koijern",
     "category": []
   },
   {
+    "id": "38",
     "german":"Arm",
     "manisch":"mussi",
     "category": []
   },
   {
+    "id": "39",
     "german":"arm",
     "manisch":"tscholli",
     "category": []
   },
   {
+    "id": "40",
     "german":"Arsch, Po",
     "manisch":"buhl",
     "category": []
   },
   {
+    "id": "41",
     "german":"Arsch, Po",
     "manisch":"duckes",
     "category": []
   },
   {
+    "id": "42",
     "german":"Arschkriecher",
     "manisch":"tschunderpicker",
     "category": ["schimpfwort"]
   },
   {
+    "id": "43",
     "german":"Arzt",
     "manisch":"tramaskero",
     "category": []
   },
   {
+    "id": "44",
     "german":"Arzt",
     "manisch":"trawesko",
     "category": []
   },
   {
+    "id": "45",
     "german":"Ärztin",
     "manisch":" traweskotschuwel",
     "category": []
   },
   {
+    "id": "46",
     "german":"Arzthelferin",
     "manisch":"traweskomoss",
     "category": []
   },
   {
+    "id": "47",
     "german":"atmen",
     "manisch":"duchen",
     "category": []
   },
   {
+    "id": "48",
     "german":"auf",
     "manisch":"abi",
     "category": []
   },
   {
+    "id": "49",
     "german":"auf",
     "manisch":"pre",
     "category": []
   },
   {
+    "id": "50",
     "german":"aufheben",
     "manisch":"hadschen",
     "category": []
   },
   {
+    "id": "51",
     "german":"aufpassen",
     "manisch":"spannen",
     "category": []
   },
   {
+    "id": "52",
     "german":"aufwachen",
     "manisch":"schangen",
     "category": []
   },
   {
+    "id": "53",
     "german":"Auge",
     "manisch":"jag",
     "category": []
   },
   {
+    "id": "54",
     "german":"Auge",
     "manisch":"schainli",
     "category": []
   },
   {
+    "id": "55",
     "german":"Auge",
     "manisch":"spannuckele",
     "category": []
   },
   {
+    "id": "56",
     "german":"Augenblick, im",
     "manisch":"härles",
     "category": []
   },
   {
+    "id": "57",
     "german":"aus",
     "manisch":"winn",
     "category": []
   },
   {
+    "id": "58",
     "german":"Ausländer",
     "manisch":"walltscho",
     "category": []
   },
   {
+    "id": "59",
     "german":"Ausrede",
     "manisch":" linkeresko",
     "category": []
   },
   {
+    "id": "60",
     "german":"Ausschau halten",
     "manisch":"luern",
     "category": []
   },
   {
+    "id": "61",
     "german":"Ausschau halten",
     "manisch":"spannen",
     "category": []
   },
   {
+    "id": "62",
     "german":"Ausschau halten",
     "manisch":"spannifen",
     "category": []
   },
   {
+    "id": "63",
     "german":"aussehen",
     "manisch":"räunen",
     "category": []
   },
   {
+    "id": "64",
     "german":"ausziehen, sich",
     "manisch":"nangern",
     "category": []
   },
   {
+    "id": "65",
     "german":"Auto",
     "manisch":"wording",
     "category": []
   },
   {
+    "id": "66",
     "german":"Axt",
     "manisch":"tower",
     "category": []
   },
   {
+    "id": "67",
     "german":"Mädchen",
     "manisch":"modelchen",
     "category": []
   },
   {
+    "id": "68",
     "german":"Mädchen",
     "manisch":"moss",
     "category": ["stadtbekannt"]
   },
   {
+    "id": "69",
     "german":"Mädchen",
     "manisch":"rackli",
     "category": []
   },
   {
+    "id": "70",
     "german":"Mädchen",
     "manisch":"romni",
     "category": []
   },
   {
+    "id": "71",
     "german":"Mädchen",
     "manisch":"tschaij",
     "category": ["stadtbekannt"]

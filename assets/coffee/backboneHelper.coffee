@@ -14,3 +14,19 @@ class pxwrkHelpersForViews extends Backbone.View
 
       return result
   )()
+
+  itemTmpl: (->
+    t = false
+    return (=>
+      if t == false
+        jQuery.ajax
+          url: 'site/templates/item.html'
+          async: false
+          dataType: 'html'
+          success: (data) =>
+            t = data
+          error: ->
+            @functionLog 'error'
+      return t
+    )()
+  )()

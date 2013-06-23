@@ -139,12 +139,35 @@ input#search
 
 //.page-wrap
 
+
+#list-view ul
+  li
+    &:hover
+      background-color: $quadrary - #222
+
+#item-detail-view
+  background: rgba(0,0,0,0.5)
+  z-index: 200
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  text-align: center
+  padding: 100px
+  .content
+    background: #fefefe
+    // TODO : Wieder raus wenn nicht mehr benötigt
+    padding-bottom: 1px
+
+
 ul
   border-bottom: 1px solid $tertiary
   list-style: none
   padding: 0
   margin: 0
   li
+    background-color: $quadrary
     padding: $space-t-b/2 $space-t-b
     border-top: 1px solid $tertiary
     +transition(background 0.3s)
@@ -152,8 +175,6 @@ ul
       background-color: $quadrary - #090909
     &.even
       background-color: $quadrary - #030303
-    &:hover
-      background-color: $quadrary - #222
     .german
       font-weight: bold
       float: left

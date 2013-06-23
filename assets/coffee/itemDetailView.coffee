@@ -2,10 +2,28 @@ class ItemDetailView extends pxwrkHelpersForViews
 
   tagName: 'div'
 
-  id: 'dark-overlay'
+  id: 'item-detail-view'
 
   initialize: ->
     _.bindAll @
+
+    contentDiv = jQuery('<div>').addClass('content')
+    jQuery(@el).html( contentDiv )
+
+    insights = jQuery('<ul>')
+
+    if @model
+      jQuery(insights).html('<li>'+_.template( @itemTmpl, @model.toJSON() )+'</li>')
+      url = 'cat/'+router.currentCat.get()+'/item/'+@model.toJSON().id
+      router.navigate(url)
+    else
+      jQuery(insights).html('<li>Ulai! Isch kann die Übersetzung net finde. Da fällt mer härles aach ke linkeresko ei!</li>')
+
+    jQuery(contentDiv).html(insights)
+
+#    msg = '<p>Hier ist der Link, falls du dieses Wort mit anderen teilen möchtest: <br />'+location.origin+'/#'+url+'</p>'
+#
+#    jQuery(contentDiv).append(msg)
 
   events:
     'click': 'unrender'
@@ -14,18 +32,11 @@ class ItemDetailView extends pxwrkHelpersForViews
     console.log 'itemDetail()'
 
   render: ->
-#    jQuery('body').append @el
-
-    # TODO: In css-datei auslagern
-    jQuery(@el).css
-      'background':'#000'
-      'z-index':'200'
-      'position':'fixed'
-      'top':'0'
-      'bottom':'0'
-      'left':'0'
-      'right':'0'
+    jQuery('body').append @el
 
   unrender: ->
-    # TODO: Beim zweiten mal klappts nicht mehr
+
+    url = 'cat/'+router.currentCat.get()
+    router.navigate(url)
+
     @remove()

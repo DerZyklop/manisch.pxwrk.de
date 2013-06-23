@@ -6,17 +6,17 @@ class ItemView extends pxwrkHelpersForViews
     _.bindAll @
 
   events:
-    'click': 'itemDetail'
+    'click': 'openItemDetail'
 
-  itemDetail: ->
+  openItemDetail: ->
     @itemDetailView = new ItemDetailView
       model: @model
     @itemDetailView.render()
 
-  render: (tmpl) ->
+  render: () ->
     @functionLog 'ItemView.render()'
-    if tmpl
-      jQuery(@el).html( _.template( tmpl, @model.toJSON() ) )
+    if @itemTmpl
+      jQuery(@el).html( _.template( @itemTmpl, @model.toJSON() ) )
     else
       jQuery(@el).html( 'Error: Missing Template' )
 

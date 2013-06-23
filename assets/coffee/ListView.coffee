@@ -1,6 +1,6 @@
 class ListView extends pxwrkHelpersForViews
 
-  el: '#list ul'
+  el: '#list-view ul'
 
   allTranslations: new List
 
@@ -32,15 +32,22 @@ class ListView extends pxwrkHelpersForViews
     
     @
 
+  openItemDetail: (id) ->
+    console.log '@categoryTranslations.where(id, 5)'
+
+    itemView = new ItemView
+      model: @categoryTranslations.findWhere({id:id})
+
+    itemView.openItemDetail()
+
   appendItem: (item) ->
     @functionLog 'appendItem()'
 
     itemView = new ItemView
       model: item
-      tmpl: @itemTmpl
       className: @getClassName(item, item.collection.length)
 
-    $(@el).append( itemView.render(@itemTmpl).el )
+    $(@el).append( itemView.render().el )
 
 
   getClassName: (->
@@ -78,22 +85,6 @@ class ListView extends pxwrkHelpersForViews
     html = ''
     _.each @visibleTranslations.models, (item) =>
       @appendItem item
-
-  itemTmpl: (->
-    t = false
-    return (=>
-      if t == false
-        jQuery.ajax
-          url: 'site/templates/item.html'
-          async: false
-          dataType: 'html'
-          success: (data) =>
-            t = data
-          error: ->
-            @functionLog 'error'
-      return t
-    )()
-  )()
 
   initialize: ->
 

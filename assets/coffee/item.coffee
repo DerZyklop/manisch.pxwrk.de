@@ -1,5 +1,6 @@
 class Item extends Backbone.Model
 
   defaults:
-    manisch: 'übersetzung fehlt'
-    german: 'übersetzung fehlt'
+    id: 'Fehler! ID fehlt'
+    manisch: 'Fehler! Übersetzung fehlt'
+    german: 'Fehler! Übersetzung fehlt'
