@@ -351,8 +351,15 @@
 
     ListView.prototype.initialize = function() {};
 
+    ListView.prototype.deactivateInfo = function() {
+      if (!jQuery('#bottom-list-info').hasClass('inactive')) {
+        return jQuery('#bottom-list-info').addClass('inactive');
+      }
+    };
+
     ListView.prototype.render = function() {
       this.functionLog('render()');
+      this.deactivateInfo();
       return this.appendItems();
     };
 

@@ -439,12 +439,9 @@ h1 {
   border-bottom: 1px solid #444444;
 }
 #primary .authorinfo a {
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
   color: #666666;
 }
 #primary .authorinfo:hover a {
-  border-color: rgba(255, 255, 255, 0.2);
   color: #fefefe;
 }
 
@@ -518,23 +515,41 @@ input#search:focus {
   margin-bottom: 0;
 }
 
-.bottom-list-info,
-.authorinfo {
-  text-align: center;
-}
-.bottom-list-info a,
+#bottom-list-info a,
 .authorinfo a {
-  display: block;
-  padding: 20px;
   text-decoration: none;
 }
 
-.authorinfo {
+#bottom-list-info {
+  text-align: left;
+  padding: 30px 40px;
+}
+#bottom-list-info.inactive {
+  display: none;
+}
+#bottom-list-info p {
+  margin-top: 0;
+}
+#bottom-list-info .magic-link {
+  border-color: #bbbbbb;
+  font-size: 20px;
+}
+
+.magic-link {
+  display: block;
+  padding: 20px;
+  text-align: center;
   font-size: 14px;
-  -webkit-transition: opacity 0.3s;
-  -moz-transition: opacity 0.3s;
-  -o-transition: opacity 0.3s;
-  transition: opacity 0.3s;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  -webkit-transition: font-size 0.1s;
+  -moz-transition: font-size 0.1s;
+  -o-transition: font-size 0.1s;
+  transition: font-size 0.1s;
+}
+.magic-link:hover {
+  border-color: #bbbbbb;
+  font-size: 20px;
 }
 
 #primary .content {
@@ -549,45 +564,20 @@ input#search:focus {
   background: transparent;
 }
 
-@media screen and (min-width: 790px) {
-  #primary {
-    position: fixed;
-    width: 30%;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    box-sizing: border-box;
-    overflow: auto;
-  }
-
-  .fixsearch #secondary .top-bar,
-  #secondary .top-bar {
-    position: fixed;
-    left: 30%;
-    top: 0;
-    right: 0;
-    border-bottom: 1px solid #bbbbbb;
-  }
-
-  #secondary {
-    margin-left: 30%;
-    padding-top: 66px;
-  }
-}
 #list-view ul li:hover {
   background-color: gainsboro;
 }
 
 #item-detail-view {
   background: rgba(0, 0, 0, 0.5);
-  z-index: 200;
+  z-index: 1;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   text-align: center;
-  padding: 100px;
+  padding: 40px;
 }
 #item-detail-view .content {
   background: #fefefe;
@@ -660,16 +650,32 @@ ul li .counter {
   background: #aa1111;
 }
 
-.ui-autocomplete {
-  background: white;
-  border: 1px solid #bbbbbb;
-  padding: 0;
-  list-style: none;
-  position: relative;
-}
-.ui-autocomplete a {
-  display: block;
-}
-.ui-autocomplete a.ui-state-focus {
-  color: white;
+@media screen and (min-width: 790px) {
+  #primary {
+    position: fixed;
+    width: 30%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    overflow: auto;
+  }
+
+  .fixsearch #secondary .top-bar,
+  #secondary .top-bar {
+    position: fixed;
+    left: 30%;
+    top: 0;
+    right: 0;
+    border-bottom: 1px solid #bbbbbb;
+  }
+
+  #secondary {
+    margin-left: 30%;
+    padding-top: 66px;
+  }
+
+  #item-detail-view {
+    padding: 100px 20%;
+  }
 }

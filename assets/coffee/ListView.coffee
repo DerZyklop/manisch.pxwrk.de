@@ -88,8 +88,15 @@ class ListView extends pxwrkHelpersForViews
 
   initialize: ->
 
+  deactivateInfo: () ->
+    if !jQuery('#bottom-list-info').hasClass 'inactive'
+      jQuery('#bottom-list-info').addClass 'inactive'
+
   render: ->
     @functionLog 'render()'
+
+    @deactivateInfo()
+
     @appendItems()
 
   unrender: ->
