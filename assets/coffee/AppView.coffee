@@ -38,18 +38,18 @@ class AppView extends pxwrkHelpersForViews
 
 
   categoryRequest: (category) ->
-      jQuery('#search').val('')
-      @setFocusToFirstInput()
+    jQuery('#search').val('')
+    @setFocusToFirstInput()
 
-      @listView.getItemsByCategory(category)
+    @listView.getItemsByCategory(category)
 
-      jQuery('.active').removeClass 'active'
-      jQuery('#'+category+'-btn').addClass 'active'
+    jQuery('.active').removeClass 'active'
+    jQuery('#'+category+'-btn').addClass 'active'
 
 
   itemRequest: (itemId) ->
 
-      @listView.openItemDetail(itemId)
+    @listView.openItemDetail(itemId)
 
 
   #events:
