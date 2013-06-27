@@ -10,18 +10,18 @@ $topBarHeight: 26px
 
 h1
   font-size: 1em
-  line-height: $topBarHeight
+  line-height: $topBarHeight - 2px
   margin: 0
   color: $primary
 
 #primary,
-#search
+.magic-link
   background: 
     repeat: repeat
 #primary
   background: 
     image: url('../img/noise-dark.png')
-#search
+.magic-link
   background: 
     image: url('../img/noise-light.png')
 
@@ -60,7 +60,6 @@ a
 
 #secondary .top-bar
   background: linear-gradient(rgba(255,255,255,0.8),rgba(240,240,240,0.8))
-  background: linear-gradient(rgba(255,255,255,0.8),rgba(240,240,240,0.8))
 
 
 .fixsearch
@@ -75,20 +74,20 @@ a
     padding-top: $space-t-b*2 + $topBarHeight
 
 
+input#search,
 #primary .top-bar
   min-height: $topBarHeight
   padding: $space-t-b
+  //min-height: $topBarHeight + 2*$space-t-b
 
 input#search
   line-height: $topBarHeight
-  min-height: $topBarHeight + 2*$space-t-b
   border-radius: 0
   box-shadow: none
   margin: 0
   border: none
   display: block
-  //background-color: $quadrary - #111
-  //background: linear-gradient($quadrary - #111,#fff)
+  //background: linear-gradient(#4f4f4f,#404040)
   &:focus
     background: $quadrary
 
@@ -117,6 +116,7 @@ input#search
     font-size: $font-size
 
 .magic-link
+  font-family: $font-highlight
   display: block
   padding: $space-t-b
   text-align: center
@@ -132,6 +132,8 @@ input#search
   padding: $space-t-b
 
 .button
+  font-weight: normal
+
   margin: 0
   font-size: 0.9em
   text-align: left
@@ -161,24 +163,21 @@ input#search
     padding-bottom: 1px
 
 
-ul li,
-input#search
-  padding: $space-t-b/2 $space-t-b
-
 ul
   border-bottom: 1px solid $tertiary
   list-style: none
   padding: 0
   margin: 0
   li
+    padding: $space-t-b/2 $space-t-b
     background-color: $quadrary
     padding: $space-t-b/2 $space-t-b
-    border-top: 1px solid $tertiary
+    border-top: 1px solid $tertiary - #111
     +transition(background 0.3s)
     &.odd
       background-color: $quadrary - #090909
     &.even
-      background-color: $quadrary - #030303
+      background-color: $quadrary - #050505
     .german
       font-weight: bold
       float: left
@@ -190,7 +189,7 @@ ul
       &.odd
         border-color: $quadrary - #151515
       &.even
-        border-color: $quadrary - #090909
+        border-color: $quadrary - #111
     &.same-german
       .german
         display: none

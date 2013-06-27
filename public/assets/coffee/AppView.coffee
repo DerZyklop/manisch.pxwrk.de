@@ -62,10 +62,11 @@ class AppView extends pxwrkHelpersForViews
     _.bindAll @
 
     @listView.allTranslations.fetch
-      url: 'content/manisch.json'
+      url: 'translations'
       async: false
-      error: ->
+      error: (data) ->
         console.log 'fetch error!!'
+        console.log data
       success: (data) ->
         console.log 'fetch data:'
         console.log data

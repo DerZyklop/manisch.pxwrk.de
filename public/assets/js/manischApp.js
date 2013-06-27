@@ -36,19 +36,7 @@
         _this = this;
       t = false;
       return (function() {
-        if (t === false) {
-          jQuery.ajax({
-            url: 'site/templates/item.html',
-            async: false,
-            dataType: 'html',
-            success: function(data) {
-              return t = data;
-            },
-            error: function() {
-              return this.functionLog('error');
-            }
-          });
-        }
+        t = '<span id="itemview"><span class="german"><%- german %></span>&nbsp;<span class="manisch"><%- manisch %></span></span><div class="clearit"></div>';
         return t;
       })();
     })();
@@ -439,10 +427,11 @@
       this.functionLog('initialize()');
       _.bindAll(this);
       this.listView.allTranslations.fetch({
-        url: 'content/manisch.json',
+        url: 'translations',
         async: false,
-        error: function() {
-          return console.log('fetch error!!');
+        error: function(data) {
+          console.log('fetch error!!');
+          return console.log(data);
         },
         success: function(data) {
           console.log('fetch data:');

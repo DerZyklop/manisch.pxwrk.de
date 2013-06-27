@@ -1,0 +1,10 @@
+{
+    "name": "manisch-german-dict",
+    "description": "A Manisch/German dictionary",
+    "version": "0.3.0",
+    "private": true,
+    "dependencies": {
+        "express": "3.x",
+        "mongodb": "1.3.10"
+    }
+}
