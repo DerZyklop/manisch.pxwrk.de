@@ -40,6 +40,22 @@ h1
       color: #666
     &:hover a
       color: $quadrary
+  .content
+    padding: $space-t-b
+  .button
+    background: transparent
+    font-size: 0.9em
+    text-align: left
+    border-color: rgba(255,255,255,0.1)
+    &.active
+      background: $secondary - #222
+    &:hover
+      background: $secondary + #111
+
+.button
+  font-family: $font-highlight
+  font-weight: normal
+  background: $secondary
 
 a
   +transition(color 0.3s, border-color 0.3s)
@@ -104,13 +120,22 @@ input#search
   a
     text-decoration: none
 
+.seperator
+  text-align: center
+  &:after
+    content: '–––'
+  &:before
+    content: '–––'
+
 #bottom-list-info
   text-align: left
+  .inner
+    margin: $space-t-b*2 $space-t-b*2
   &.inactive
     display: none
   p
-    margin-top: 0
-    padding: $space-t-b*2 $space-t-b*2
+    //margin-top: 0
+    //padding: $space-t-b*2 $space-t-b*2
   .magic-link
     border-color: $tertiary
     font-size: $font-size
@@ -126,20 +151,8 @@ input#search
   +transition(font-size 0.1s)
   &:hover
     border-color: $tertiary
-    font-size: $font-size
+    font-size: $font-size-small + 4px
 
-#primary .content
-  padding: $space-t-b
-
-.button
-  font-weight: normal
-
-  margin: 0
-  font-size: 0.9em
-  text-align: left
-  border-color: rgba(255,255,255,0.1)
-  background: transparent
-  font-family: $font-highlight
 
 
 #list-view ul
@@ -163,30 +176,47 @@ input#search
 #item-detail-view
   background: rgba(0,0,0,0.5)
   z-index: 1
-  position: fixed
+  position: absolute
+  min-height: 100%
   top: 0
-  bottom: 0
+  //bottom: 0
   left: 0
   right: 0
   text-align: center
-  padding: $space-t-b*2
+  .close
+    cursor: pointer
+    border-radius: $radius $radius 0 0
+    background: $primary
+    background: linear-gradient($primary, $primary - #222)
+    //font-weight: bold
+    color: #fff
+    font-size: $font-size-small
+    font-family: $font-highlight
+    padding: 0 $space-t-b
+    padding: $space-t-b/2 $space-t-b
   .content
+    margin: $space-t-b*2
     background: #fefefe
     // TODO : Wieder raus wenn nicht mehr benötigt
     padding-bottom: 1px
     border-radius: $radius
-  .close
-    cursor: pointer
-    border-radius: $radius $radius 0 0
-    background: $secondary
-    //font-weight: bold
-    color: #fff
-    font-size: 14px
-    font-family: $font-highlight
-    padding: 0 $space-t-b
+  li
+    font-size: 1.6em
   .more
-    padding: $space-t-b $space-t-b
-    
+    text-align: left
+    margin: $space-t-b $space-t-b
+    font-family: $font-highlight
+  .button
+    margin-top: $space-t-b*2
+    padding: $space-t-b 0
+    background: linear-gradient($quadrary, $quadrary - #111)
+    color: $font-color
+    font-size: 0.9em
+    border-color: rgba(0,0,0,0.2)
+    &:hover
+      background: linear-gradient($quadrary, $quadrary - #222)
+      //color: $quadrary
+      border-color: rgba(0,0,0,0.4)
 
 ul
   border-bottom: 1px solid $tertiary
@@ -194,6 +224,7 @@ ul
   padding: 0
   margin: 0
   li
+    line-height: 2em
     padding: $space-t-b/2 $space-t-b
     background-color: $quadrary
     padding: $space-t-b/2 $space-t-b
@@ -239,12 +270,6 @@ ul
     button
       border-radius: 0 $radius $radius 0
 
-.button
-  &.active
-    background: $secondary - #222
-  &:hover
-    background: $secondary + #111
-
 @media screen and (min-width: $breakpoint)
   #primary
     position: fixed
@@ -268,5 +293,5 @@ ul
     padding-top: $space-t-b*2 + $topBarHeight
 
 
-  #item-detail-view
-    padding: $space-t-b*5 20%
+  #item-detail-view .content
+    margin: $space-t-b*5 20%

@@ -4,10 +4,41 @@ class AppView extends pxwrkHelpersForViews
 
   events:
     'keyup #search': 'performSearch'
+    'keyup #primary': 'keyNav'
 
   listView: new ListView
 
   navHeight: jQuery('#secondary .top-bar').offset().top
+
+  keyNav: (event) ->
+    
+    console.log @$el.find('#'+event.target.id).prev()
+
+    el = @$el.find('#'+event.target.id)
+
+    switch event.keyCode
+      when 38
+        el = el.prev()
+        url = el.attr('href')
+        router.navigate url, {trigger: true}
+        el.focus()
+
+        console.log 'hoch'
+        return
+      when 40
+        el = el.next()
+        url = el.attr('href')
+        router.navigate url, {trigger: true}
+        el.focus()
+
+        console.log 'runter'
+        return
+      when 39
+        console.log 'rechts'
+        return
+      when 37
+        console.log 'links'
+        return
 
   performSearch: (event) ->
     router.navigate router.getNewUrl(), {trigger: true}
@@ -48,12 +79,14 @@ class AppView extends pxwrkHelpersForViews
   randomItemRequest: ->
     jQuery('#search').val('')
 
+    category = 'alle' || router.currentCat.get()
+
     params =
-      category: router.currentCat.get()
+      category: category
       search: ''
       id: _.random(1, translations.length).toString()
 
-    if params.category == 'alle'
+    if !router.currentCat.get()
       @listRequest(params)
       @listView.render()
 

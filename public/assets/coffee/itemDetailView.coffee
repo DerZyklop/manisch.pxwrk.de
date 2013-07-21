@@ -9,16 +9,19 @@ class ItemDetailView extends pxwrkHelpersForViews
     'click a': 'unrender'
     'click .close': 'unrender'
 
+
+  fadeDuration = 0
+
   itemHtml: ->
     _.template( @itemTmpl, @model.toJSON() )
   viewHtml: ->
     if @model
       item = _.template @itemDetailTmpl, 
         content: @itemHtml()
-        more: '(Hier kommt später eine Share-Funktion für Facebook und Twitter)'
+        item: @model.toJSON()
     else
       item = _.template @itemDetailTmpl, 
-        content: 'Ulai! Isch kann die Übersetzung net finde. Da fällt mer <a href="#cat/alle/search/härles">härles</a> aach ke <a href="#cat/alle/search/linkeresko">linkeresko</a> ei!'
+        content: 'Ulai! Isch kann die Übersetzung net finde. Da fällt mer <a href="#cat/alle/search/härles/">härles</a> aach ke <a href="#cat/alle/search/linkeresko/">linkeresko</a> ei!'
         more: '(Hier kommt später eine Share-Funktion für Facebook und Twitter)'
 
   initialize: ->
@@ -37,13 +40,14 @@ class ItemDetailView extends pxwrkHelpersForViews
     url = router.getNewUrl()
 
     if @model
-      url += '/item/'+@model.toJSON().id
+      url += 'item/'+@model.toJSON().id
 
     router.navigate(url, {trigger: false})
 
     @$el.css 'display', 'none'
     jQuery('body').append @el
-    @$el.fadeIn 200
+    @$el.fadeIn fadeDuration
+    @$el.find('.button').focus()
 
   unrenderCheck: (event) ->
     if event.target.id == 'item-detail-view'
@@ -52,7 +56,7 @@ class ItemDetailView extends pxwrkHelpersForViews
   unrender: (event) ->
     jQuery(document).off 'keyup'
 
-    @$el.fadeOut 200, ->
+    @$el.fadeOut fadeDuration, ->
       @remove()
 
       url = router.getNewUrl()

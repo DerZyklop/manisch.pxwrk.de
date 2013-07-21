@@ -457,6 +457,27 @@ h1 {
 #primary .authorinfo:hover a {
   color: #fefefe;
 }
+#primary .content {
+  padding: 20px;
+}
+#primary .button {
+  background: transparent;
+  font-size: 0.9em;
+  text-align: left;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+#primary .button.active {
+  background: #770000;
+}
+#primary .button:hover {
+  background: #aa1111;
+}
+
+.button {
+  font-family: "Droid Sans", helvetica, sans-serif;
+  font-weight: normal;
+  background: #990000;
+}
 
 a {
   -webkit-transition: color 0.3s, border-color 0.3s;
@@ -531,15 +552,24 @@ input#search:focus {
   text-decoration: none;
 }
 
+.seperator {
+  text-align: center;
+}
+.seperator:after {
+  content: "–––";
+}
+.seperator:before {
+  content: "–––";
+}
+
 #bottom-list-info {
   text-align: left;
 }
+#bottom-list-info .inner {
+  margin: 40px 40px;
+}
 #bottom-list-info.inactive {
   display: none;
-}
-#bottom-list-info p {
-  margin-top: 0;
-  padding: 40px 40px;
 }
 #bottom-list-info .magic-link {
   border-color: #bbbbbb;
@@ -561,21 +591,7 @@ input#search:focus {
 }
 .magic-link:hover {
   border-color: #bbbbbb;
-  font-size: 20px;
-}
-
-#primary .content {
-  padding: 20px;
-}
-
-.button {
-  font-weight: normal;
-  margin: 0;
-  font-size: 0.9em;
-  text-align: left;
-  border-color: rgba(255, 255, 255, 0.1);
-  background: transparent;
-  font-family: "Droid Sans", helvetica, sans-serif;
+  font-size: 18px;
 }
 
 #list-view ul li {
@@ -599,30 +615,49 @@ input#search:focus {
 #item-detail-view {
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;
-  position: fixed;
+  position: absolute;
+  min-height: 100%;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
   text-align: center;
-  padding: 40px;
-}
-#item-detail-view .content {
-  background: #fefefe;
-  padding-bottom: 1px;
-  border-radius: 6px;
 }
 #item-detail-view .close {
   cursor: pointer;
   border-radius: 6px 6px 0 0;
-  background: #990000;
+  background: #99bbbb;
+  background: linear-gradient(#99bbbb, #779999);
   color: white;
   font-size: 14px;
   font-family: "Droid Sans", helvetica, sans-serif;
   padding: 0 20px;
+  padding: 10px 20px;
+}
+#item-detail-view .content {
+  margin: 40px;
+  background: #fefefe;
+  padding-bottom: 1px;
+  border-radius: 6px;
+}
+#item-detail-view li {
+  font-size: 1.6em;
 }
 #item-detail-view .more {
-  padding: 20px 20px;
+  text-align: left;
+  margin: 20px 20px;
+  font-family: "Droid Sans", helvetica, sans-serif;
+}
+#item-detail-view .button {
+  margin-top: 40px;
+  padding: 20px 0;
+  background: linear-gradient(#fefefe, #ededed);
+  color: #222222;
+  font-size: 0.9em;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+#item-detail-view .button:hover {
+  background: linear-gradient(#fefefe, #dcdcdc);
+  border-color: rgba(0, 0, 0, 0.4);
 }
 
 ul {
@@ -632,6 +667,7 @@ ul {
   margin: 0;
 }
 ul li {
+  line-height: 2em;
   padding: 10px 20px;
   background-color: #fefefe;
   padding: 10px 20px;
@@ -684,13 +720,6 @@ ul li .counter {
   border-radius: 0 6px 6px 0;
 }
 
-.button.active {
-  background: #770000;
-}
-.button:hover {
-  background: #aa1111;
-}
-
 @media screen and (min-width: 790px) {
   #primary {
     position: fixed;
@@ -716,7 +745,7 @@ ul li .counter {
     padding-top: 66px;
   }
 
-  #item-detail-view {
-    padding: 100px 20%;
+  #item-detail-view .content {
+    margin: 100px 20%;
   }
 }

@@ -1,9 +1,9 @@
 class Router extends Backbone.Router
 
   routes:
-    "cat/:category(/search/:search)": "showFilteredList"
-    "random": "showRandomItems"
-    "cat/:category(/search/:search)/item/:itemid": "showItem"
+    "(cat/:category)(/)(search/:search)/": "showFilteredList"
+    "random/": "showRandomItems"
+    "(cat/:category/)(search/:search/)item/:itemid": "showItem"
 
 
 
@@ -15,15 +15,17 @@ class Router extends Backbone.Router
 
   getNewUrl: ->
     console.log 'getNewUrl'
-    url = 'cat/'+@currentCat.get()
+    url = ''
+    if @currentCat.get()
+      url += 'cat/'+@currentCat.get()+'/'
     if jQuery('#search').val()
-      url += '/search/'+jQuery('#search').val()
+      url += 'search/'+jQuery('#search').val()+'/'
     return url
 
 
 
 
-  showFilteredList: (category, search = '') ->
+  showFilteredList: (category = 'alle', search = '') ->
     params =
       category: category
       search: search
@@ -39,7 +41,7 @@ class Router extends Backbone.Router
 
 
   currentCat: (->
-    currentCategory = 'alle'
+    currentCategory = false
     return {
       set: (newCat) ->
         currentCategory = newCat
@@ -50,10 +52,6 @@ class Router extends Backbone.Router
 
   showRandomItems: ->
     console.log 'showRandomItems'
-    #app.listView.unrender()
-    #@currentCat.set('alle')
-
-    #app.listView.unrender()
 
     app.randomItemRequest()
 

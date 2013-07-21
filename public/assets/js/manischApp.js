@@ -68,6 +68,7 @@
 
 
   ItemDetailView = (function(_super) {
+    var fadeDuration;
 
     __extends(ItemDetailView, _super);
 
@@ -85,6 +86,8 @@
       'click .close': 'unrender'
     };
 
+    fadeDuration = 0;
+
     ItemDetailView.prototype.itemHtml = function() {
       return _.template(this.itemTmpl, this.model.toJSON());
     };
@@ -94,11 +97,11 @@
       if (this.model) {
         return item = _.template(this.itemDetailTmpl, {
           content: this.itemHtml(),
-          more: '(Hier kommt später eine Share-Funktion für Facebook und Twitter)'
+          item: this.model.toJSON()
         });
       } else {
         return item = _.template(this.itemDetailTmpl, {
-          content: 'Ulai! Isch kann die Übersetzung net finde. Da fällt mer <a href="#cat/alle/search/härles">härles</a> aach ke <a href="#cat/alle/search/linkeresko">linkeresko</a> ei!',
+          content: 'Ulai! Isch kann die Übersetzung net finde. Da fällt mer <a href="#cat/alle/search/härles/">härles</a> aach ke <a href="#cat/alle/search/linkeresko/">linkeresko</a> ei!',
           more: '(Hier kommt später eine Share-Funktion für Facebook und Twitter)'
         });
       }
@@ -123,14 +126,15 @@
       this.render();
       url = router.getNewUrl();
       if (this.model) {
-        url += '/item/' + this.model.toJSON().id;
+        url += 'item/' + this.model.toJSON().id;
       }
       router.navigate(url, {
         trigger: false
       });
       this.$el.css('display', 'none');
       jQuery('body').append(this.el);
-      return this.$el.fadeIn(200);
+      this.$el.fadeIn(fadeDuration);
+      return this.$el.find('.button').focus();
     };
 
     ItemDetailView.prototype.unrenderCheck = function(event) {
@@ -141,7 +145,7 @@
 
     ItemDetailView.prototype.unrender = function(event) {
       jQuery(document).off('keyup');
-      return this.$el.fadeOut(200, function() {
+      return this.$el.fadeOut(fadeDuration, function() {
         var url;
         this.remove();
         url = router.getNewUrl();
@@ -393,12 +397,44 @@
     AppView.prototype.el = 'body';
 
     AppView.prototype.events = {
-      'keyup #search': 'performSearch'
+      'keyup #search': 'performSearch',
+      'keyup #primary': 'keyNav'
     };
 
     AppView.prototype.listView = new ListView;
 
     AppView.prototype.navHeight = jQuery('#secondary .top-bar').offset().top;
+
+    AppView.prototype.keyNav = function(event) {
+      var el, url;
+      console.log(this.$el.find('#' + event.target.id).prev());
+      el = this.$el.find('#' + event.target.id);
+      switch (event.keyCode) {
+        case 38:
+          el = el.prev();
+          url = el.attr('href');
+          router.navigate(url, {
+            trigger: true
+          });
+          el.focus();
+          console.log('hoch');
+          break;
+        case 40:
+          el = el.next();
+          url = el.attr('href');
+          router.navigate(url, {
+            trigger: true
+          });
+          el.focus();
+          console.log('runter');
+          break;
+        case 39:
+          console.log('rechts');
+          break;
+        case 37:
+          console.log('links');
+      }
+    };
 
     AppView.prototype.performSearch = function(event) {
       return router.navigate(router.getNewUrl(), {
@@ -436,14 +472,15 @@
     };
 
     AppView.prototype.randomItemRequest = function() {
-      var params;
+      var category, params;
       jQuery('#search').val('');
+      category = 'alle' ||  router.currentCat.get();
       params = {
-        category: router.currentCat.get(),
+        category: category,
         search: '',
         id: _.random(1, translations.length).toString()
       };
-      if (params.category === 'alle') {
+      if (!router.currentCat.get()) {
         this.listRequest(params);
         this.listView.render();
       }
@@ -500,9 +537,9 @@
     }
 
     Router.prototype.routes = {
-      "cat/:category(/search/:search)": "showFilteredList",
-      "random": "showRandomItems",
-      "cat/:category(/search/:search)/item/:itemid": "showItem"
+      "(cat/:category)(/)(search/:search)/": "showFilteredList",
+      "random/": "showRandomItems",
+      "(cat/:category/)(search/:search/)item/:itemid": "showItem"
     };
 
     Router.prototype.beforeNavigate = function(params) {
@@ -513,15 +550,21 @@
     Router.prototype.getNewUrl = function() {
       var url;
       console.log('getNewUrl');
-      url = 'cat/' + this.currentCat.get();
+      url = '';
+      if (this.currentCat.get()) {
+        url += 'cat/' + this.currentCat.get() + '/';
+      }
       if (jQuery('#search').val()) {
-        url += '/search/' + jQuery('#search').val();
+        url += 'search/' + jQuery('#search').val() + '/';
       }
       return url;
     };
 
     Router.prototype.showFilteredList = function(category, search) {
       var params;
+      if (category == null) {
+        category = 'alle';
+      }
       if (search == null) {
         search = '';
       }
@@ -539,7 +582,7 @@
 
     Router.prototype.currentCat = (function() {
       var currentCategory;
-      currentCategory = 'alle';
+      currentCategory = false;
       return {
         set: function(newCat) {
           return currentCategory = newCat;
