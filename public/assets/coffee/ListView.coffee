@@ -43,6 +43,7 @@ class ListView extends pxwrkHelpersForViews
   )()
 
   appendItem: (item) ->
+
     itemView = new ItemView
       model: item
       className: @getClassName(item, item.collection.length)

@@ -10,8 +10,7 @@ class RandomView extends pxwrkHelpersForViews
 
     itemDetailView = new ItemDetailView
       model: item
-    itemDetailView.render()
-
+    itemDetailView.show()
 
   appendItem: (item) ->
     itemView = new ItemView

@@ -11,7 +11,7 @@ class ItemView extends pxwrkHelpersForViews
   showItemDetail: ->
     itemDetailView = new ItemDetailView
       model: @model
-    itemDetailView.render()
+    itemDetailView.show()
 
   render: ->
     @functionLog 'ItemView.render()'

@@ -6,7 +6,6 @@ class AppView extends pxwrkHelpersForViews
     'keyup #search': 'performSearch'
 
   listView: new ListView
-  randomView: new RandomView
 
   navHeight: jQuery('#secondary .top-bar').offset().top
 
@@ -38,13 +37,8 @@ class AppView extends pxwrkHelpersForViews
   listRequest: (params) ->
     @functionLog 'listRequest()'
 
-    if !params.search then params.search = ''
-
     if jQuery('#search').val() != params.search
       jQuery('#search').val(params.search)
-
-    jQuery('.active').removeClass 'active'
-    jQuery('#'+params.category+'-btn').addClass 'active'
 
     if @valueHasChanged(params.search, 'search') || @valueHasChanged(params.category, 'category') 
 
@@ -54,24 +48,26 @@ class AppView extends pxwrkHelpersForViews
   randomItemRequest: ->
     jQuery('#search').val('')
 
-    jQuery('.active').removeClass 'active'
-    jQuery('#random-btn').addClass 'active'
-
     params =
       category: router.currentCat.get()
       search: ''
       id: _.random(1, translations.length).toString()
 
+    if params.category == 'alle'
+      @listRequest(params)
+      @listView.render()
+
     @showItemDetail(params)
 
 
   showItemDetail: (params) ->
+
     items = translations.category('alle').search('')
     item = items.findWhere({id:params.id})
 
     itemDetailView = new ItemDetailView
       model: item
-    itemDetailView.render()
+    itemDetailView.show()
 
 
   initialize: ->

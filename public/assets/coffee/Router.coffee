@@ -6,6 +6,13 @@ class Router extends Backbone.Router
     "cat/:category(/search/:search)/item/:itemid": "showItem"
 
 
+
+
+  beforeNavigate: (params) ->
+    jQuery('.active').removeClass 'active'
+    jQuery('#'+params.category+'-btn').addClass 'active'
+
+
   getNewUrl: ->
     console.log 'getNewUrl'
     url = 'cat/'+@currentCat.get()
@@ -14,13 +21,20 @@ class Router extends Backbone.Router
     return url
 
 
-  showFilteredList: (category, search = '') ->
-    console.log 'showFilteredList'
-    @currentCat.set(category)
 
-    app.listRequest
+
+  showFilteredList: (category, search = '') ->
+    params =
       category: category
       search: search
+
+    @beforeNavigate(params)
+
+    console.log 'showFilteredList'
+    @currentCat.set(params.category)
+
+    app.listView.unrender()
+    app.listRequest(params)
     app.listView.render()
 
 
@@ -42,14 +56,16 @@ class Router extends Backbone.Router
     #app.listView.unrender()
 
     app.randomItemRequest()
-    app.randomView.render()
 
 
-  showItem: (category, search, itemId) ->
-    console.log 'showItem'
-    @showFilteredList(category, search)
-
-    app.showItemDetail
+  showItem: (category, search, id) ->
+    params =
       category: category
       search: search
-      id: itemId
+      id: id
+
+    @beforeNavigate(params)
+
+    @showFilteredList(category, search)
+
+    app.showItemDetail(params)
