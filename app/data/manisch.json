@@ -3,13 +3,13 @@
     "id": "1",
     "german":"Aal",
     "manisch":"sabeskomatsch",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "2",
     "german":"Abend",
     "manisch":"ratt",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "3",
@@ -21,31 +21,31 @@
     "id": "4",
     "german":"Abort (Toilette)",
     "manisch":"tschundekär",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "5",
     "german":"Abort (Toilette)",
     "manisch":"kinemaskerikär",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "6",
     "german":"Achselhöhle",
     "manisch":"kak",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "7",
     "german":"Advokat",
     "manisch":"tschinnebaskero",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "8",
     "german":"Alkohol",
     "manisch":"katschedi",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "9",
@@ -75,13 +75,13 @@
     "id": "13",
     "german":"Angst",
     "manisch":"drasch",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "14",
     "german":"Angst",
     "manisch":"eme",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "15",
@@ -117,31 +117,31 @@
     "id": "20",
     "german":"Apfel",
     "manisch":"papi, papnee",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "21",
     "german":"Apotheke",
     "manisch":"trabengerokär",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "22",
     "german":"Arbeit",
     "manisch":"buder",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "23",
     "german":"Arbeit",
     "manisch":"buderpin",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "24",
     "german":"Arbeit",
     "manisch":"maloche",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "25",
@@ -177,37 +177,37 @@
     "id": "30",
     "german":"Arbeiten, das",
     "manisch":"puderpin",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "31",
     "german":"Arbeiter",
     "manisch":"budebaskro",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "32",
     "german":"Arbeiter",
     "manisch":"malochegardsch",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "33",
     "german":"Arbeitsstätte",
     "manisch":"maloche",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "34",
     "german":"Ärger",
     "manisch":"koije",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "35",
     "german":"Ärger",
     "manisch":"koijepin",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "36",
@@ -225,7 +225,7 @@
     "id": "38",
     "german":"Arm",
     "manisch":"mussi",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "39",
@@ -237,13 +237,13 @@
     "id": "40",
     "german":"Arsch, Po",
     "manisch":"buhl",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "41",
     "german":"Arsch, Po",
     "manisch":"duckes",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "42",
@@ -255,25 +255,25 @@
     "id": "43",
     "german":"Arzt",
     "manisch":"tramaskero",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "44",
     "german":"Arzt",
     "manisch":"trawesko",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "45",
     "german":"Ärztin",
     "manisch":" traweskotschuwel",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "46",
     "german":"Arzthelferin",
     "manisch":"traweskomoss",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "47",
@@ -315,25 +315,25 @@
     "id": "53",
     "german":"Auge",
     "manisch":"jag",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "54",
     "german":"Auge",
     "manisch":"schainli",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "55",
     "german":"Auge",
     "manisch":"spannuckele",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "56",
     "german":"Augenblick, im",
     "manisch":"härles",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "57",
@@ -345,13 +345,13 @@
     "id": "58",
     "german":"Ausländer",
     "manisch":"walltscho",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "59",
     "german":"Ausrede",
     "manisch":" linkeresko",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "60",
@@ -387,42 +387,42 @@
     "id": "65",
     "german":"Auto",
     "manisch":"wording",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "66",
     "german":"Axt",
     "manisch":"tower",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "67",
     "german":"Mädchen",
     "manisch":"modelchen",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "68",
     "german":"Mädchen",
     "manisch":"moss",
-    "category": ["stadtbekannt"]
+    "category": ["nomen","stadtbekannt"]
   },
   {
     "id": "69",
     "german":"Mädchen",
     "manisch":"rackli",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "70",
     "german":"Mädchen",
     "manisch":"romni",
-    "category": []
+    "category": ["nomen"]
   },
   {
     "id": "71",
     "german":"Mädchen",
     "manisch":"tschaij",
-    "category": ["stadtbekannt"]
+    "category": ["nomen","stadtbekannt"]
   }
 ]

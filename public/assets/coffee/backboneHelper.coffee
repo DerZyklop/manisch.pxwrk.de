@@ -16,18 +16,11 @@ class pxwrkHelpersForViews extends Backbone.View
   )()
 
   itemTmpl: (->
-    t = false
-    return (=>
-#      if t == false
-#        jQuery.ajax
-#          url: 'site/templates/item.html'
-#          async: false
-#          dataType: 'html'
-#          success: (data) =>
-#            t = data
-#          error: =>
-#            t = '<span id="itemview"><span class="german"><%- german %></span>&nbsp;<span class="manisch"><%- manisch %></span></span><div class="clearit"></div>'
-      t = '<span id="itemview"><span class="german"><%- german %></span>&nbsp;<span class="manisch"><%- manisch %></span></span><div class="clearit"></div>'
-      return t
-    )()
+    result = ''
+    jQuery.ajax
+      url: 'site/templates/item.html'
+      async: false
+      success: (data) ->
+        result = data
+    result
   )()

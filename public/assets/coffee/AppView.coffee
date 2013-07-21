@@ -1,17 +1,29 @@
 class AppView extends pxwrkHelpersForViews
 
+  el: 'body'
+
+  events:
+    'keyup #search': 'performSearch'
+
   listView: new ListView
+  randomView: new RandomView
 
   navHeight: jQuery('#secondary .top-bar').offset().top
 
+  performSearch: (event) ->
+    router.navigate router.getNewUrl(), {trigger: true}
+
+
   setFocusToFirstInput: ->
     #jQuery('input:visible:first:text').focus()
+
 
   checkNavHeight: ->
     jQuery('body').removeClass('fixsearch')
     @navHeight = jQuery('#secondary .top-bar').offset().top
 
-  performScrollCheck: () ->
+
+  performScrollCheck: ->
     if jQuery('body').hasClass('fixsearch')
 
       if jQuery(window).scrollTop() < @navHeight
@@ -23,53 +35,48 @@ class AppView extends pxwrkHelpersForViews
         jQuery('body').addClass('fixsearch')
 
 
-  searchRequest: (val, id) ->
-    @functionLog 'searchRequest()'
+  listRequest: (params) ->
+    @functionLog 'listRequest()'
 
-    if jQuery('#search').val() != val
-      jQuery('#search').val(val)
+    if !params.search then params.search = ''
 
-    if @valueHasChanged(val, id)
-
-      if val == ''
-        @listView.getItemsBySearch()
-      else
-        @listView.getItemsBySearch(val)
-
-
-  categoryRequest: (category) ->
-    jQuery('#search').val('')
-    @setFocusToFirstInput()
-
-    @listView.getItemsByCategory(category)
+    if jQuery('#search').val() != params.search
+      jQuery('#search').val(params.search)
 
     jQuery('.active').removeClass 'active'
-    jQuery('#'+category+'-btn').addClass 'active'
+    jQuery('#'+params.category+'-btn').addClass 'active'
+
+    if @valueHasChanged(params.search, 'search') || @valueHasChanged(params.category, 'category') 
+
+      @listView.getFilteredList params
 
 
-  itemRequest: (itemId) ->
+  randomItemRequest: ->
+    jQuery('#search').val('')
 
-    @listView.openItemDetail(itemId)
+    jQuery('.active').removeClass 'active'
+    jQuery('#random-btn').addClass 'active'
+
+    params =
+      category: router.currentCat.get()
+      search: ''
+      id: _.random(1, translations.length).toString()
+
+    @showItemDetail(params)
 
 
-  #events:
-    # TODO: hier stimmt irgendwas nicht... die events funktionieren nicht
-    # TODO: das click .sort element ist doppelt ( jQuery(...).on 'click' ... )
-    #'click .sort': 'getItemsByCategory'
+  showItemDetail: (params) ->
+    items = translations.category('alle').search('')
+    item = items.findWhere({id:params.id})
+
+    itemDetailView = new ItemDetailView
+      model: item
+    itemDetailView.render()
+
 
   initialize: ->
     @functionLog 'initialize()'
     _.bindAll @
-
-    @listView.allTranslations.fetch
-      url: 'translations'
-      async: false
-      error: (data) ->
-        console.log 'fetch error!!'
-        console.log data
-      success: (data) ->
-        console.log 'fetch data:'
-        console.log data
 
     @setFocusToFirstInput()
 
@@ -80,9 +87,6 @@ class AppView extends pxwrkHelpersForViews
       @checkNavHeight()
       @performScrollCheck()
 
-
     setTimeout ->
       jQuery('body').animate({scrollTop: jQuery('#secondary .top-bar').offset().top}, 400)
     , 500
-
-app = new AppView

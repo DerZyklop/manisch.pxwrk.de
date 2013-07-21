@@ -4,39 +4,32 @@ class ItemDetailView extends pxwrkHelpersForViews
 
   id: 'item-detail-view'
 
+  events:
+    'click': 'unrender'
+
   initialize: ->
     _.bindAll @
 
     contentDiv = jQuery('<div>').addClass('content')
-    jQuery(@el).html( contentDiv )
 
-    insights = jQuery('<ul>')
+    url = router.getNewUrl()
 
     if @model
-      jQuery(insights).html('<li>'+_.template( @itemTmpl, @model.toJSON() )+'</li>')
-      url = 'cat/'+router.currentCat.get()+'/item/'+@model.toJSON().id
-      router.navigate(url)
+      item = '<li>'+_.template( @itemTmpl, @model.toJSON() )+'</li>'
+      url += '/item/'+@model.toJSON().id
     else
-      jQuery(insights).html('<li>Ulai! Isch kann die Übersetzung net finde. Da fällt mer härles aach ke linkeresko ei!</li>')
+      item = '<li>Ulai! Isch kann die Übersetzung net finde. Da fällt mer härles aach ke linkeresko ei!</li>'
+
+    router.navigate(url)
+
+    insights = jQuery('<ul>').html(item).after('<div><br />(Hier kommt später eine Share-Funktion für Facebook und Twitter)<br /><br /></div>')
 
     jQuery(contentDiv).html(insights)
-
-#    msg = '<p>Hier ist der Link, falls du dieses Wort mit anderen teilen möchtest: <br />'+location.origin+'/#'+url+'</p>'
-#
-#    jQuery(contentDiv).append(msg)
-
-  events:
-    'click': 'unrender'
-
-  itemDetail: ->
-    console.log 'itemDetail()'
+    jQuery(@el).html(contentDiv)
 
   render: ->
     jQuery('body').append @el
 
-  unrender: ->
-
-    url = 'cat/'+router.currentCat.get()
-    router.navigate(url)
-
-    @remove()
+  unrender: (event) ->
+    if event.target.id == 'item-detail-view'
+      @remove()

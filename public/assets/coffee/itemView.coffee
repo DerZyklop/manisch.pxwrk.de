@@ -6,14 +6,14 @@ class ItemView extends pxwrkHelpersForViews
     _.bindAll @
 
   events:
-    'click': 'openItemDetail'
+    'click': 'showItemDetail'
 
-  openItemDetail: ->
-    @itemDetailView = new ItemDetailView
+  showItemDetail: ->
+    itemDetailView = new ItemDetailView
       model: @model
-    @itemDetailView.render()
+    itemDetailView.render()
 
-  render: () ->
+  render: ->
     @functionLog 'ItemView.render()'
     if @itemTmpl
       jQuery(@el).html( _.template( @itemTmpl, @model.toJSON() ) )

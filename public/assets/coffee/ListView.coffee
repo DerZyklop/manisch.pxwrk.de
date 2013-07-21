@@ -2,52 +2,15 @@ class ListView extends pxwrkHelpersForViews
 
   el: '#list-view ul'
 
-  allTranslations: new List
+  visibleItems: new List
 
-  # TODO: 'currentlyVisible' ersetzt das hier eigentlich:
-  categoryTranslations: new List
-
-  visibleTranslations: new List
-
-  getItemsBySearch: (searchParam = false) ->
-    @functionLog 'getItemsBySearch('+searchParam+')'
-
+  getFilteredList: (params) ->
     @unrender()
 
-    @visibleTranslations.reset( @categoryTranslations.search(searchParam).toJSON() )
-    
+    items = translations.category(params.category).search(params.search)
+    @visibleItems.reset items.toJSON()
+
     @
-
-  getItemsByCategory: (categoryName) ->
-    @functionLog 'getItemsByCategory()'
-
-    jQuery('.sort.active').removeClass 'active'
-    jQuery('#'+categoryName).addClass 'active'
-
-    @unrender()
-
-    @categoryTranslations = @allTranslations.byCategory(categoryName)
-
-    @visibleTranslations.reset( @categoryTranslations.toJSON() )
-    
-    @
-
-  openItemDetail: (id) ->
-    console.log '@categoryTranslations.where(id, 5)'
-
-    itemView = new ItemView
-      model: @categoryTranslations.findWhere({id:id})
-
-    itemView.openItemDetail()
-
-  appendItem: (item) ->
-    @functionLog 'appendItem()'
-
-    itemView = new ItemView
-      model: item
-      className: @getClassName(item, item.collection.length)
-
-    $(@el).append( itemView.render().el )
 
 
   getClassName: (->
@@ -79,18 +42,26 @@ class ListView extends pxwrkHelpersForViews
       return result
   )()
 
-  appendItems: ->
-    @functionLog 'appendItems()'
+  appendItem: (item) ->
+    itemView = new ItemView
+      model: item
+      className: @getClassName(item, item.collection.length)
 
-    html = ''
-    _.each @visibleTranslations.models, (item) =>
+    $(@el).append( itemView.render().el )
+
+
+
+  appendItems: ->
+    _.each @visibleItems.models, (item) =>
       @appendItem item
 
-  initialize: ->
+
 
   deactivateInfo: () ->
-    if !jQuery('#bottom-list-info').hasClass 'inactive'
-      jQuery('#bottom-list-info').addClass 'inactive'
+    el = jQuery('#bottom-list-info')
+    if !el.hasClass 'inactive' then el.addClass 'inactive'
+
+
 
   render: ->
     @functionLog 'render()'

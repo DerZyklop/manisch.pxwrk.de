@@ -1,9 +1,27 @@
-Router = Backbone.Router.extend
+class Router extends Backbone.Router
 
   routes:
-    "cat/:categoryName": "cat"
-    "cat/:categoryName/search/:searchval": "search"
-    "cat/:categoryName/item/:itemid": "item"
+    "cat/:category(/search/:search)": "showFilteredList"
+    "random": "showRandomItems"
+    "cat/:category(/search/:search)/item/:itemid": "showItem"
+
+
+  getNewUrl: ->
+    console.log 'getNewUrl'
+    url = 'cat/'+@currentCat.get()
+    if jQuery('#search').val()
+      url += '/search/'+jQuery('#search').val()
+    return url
+
+
+  showFilteredList: (category, search = '') ->
+    console.log 'showFilteredList'
+    @currentCat.set(category)
+
+    app.listRequest
+      category: category
+      search: search
+    app.listView.render()
 
 
   currentCat: (->
@@ -16,46 +34,22 @@ Router = Backbone.Router.extend
     }
   )()
 
+  showRandomItems: ->
+    console.log 'showRandomItems'
+    #app.listView.unrender()
+    #@currentCat.set('alle')
 
-  cat: (categoryName) ->
-    console.log 'cat()'
+    #app.listView.unrender()
 
-    app.categoryRequest(categoryName)
-    app.listView.render()
-
-    @currentCat.set(categoryName)
-
-
-  search: (categoryName, searchval = '') ->
-    console.log 'search()'
-
-    app.categoryRequest(categoryName)
-    app.searchRequest(searchval, 'search')
-    app.listView.render()
-
-    @currentCat.set(categoryName)
+    app.randomItemRequest()
+    app.randomView.render()
 
 
-  item: (categoryName, itemId) ->
-    console.log 'item('+categoryName+', '+itemId+')'
+  showItem: (category, search, itemId) ->
+    console.log 'showItem'
+    @showFilteredList(category, search)
 
-    app.categoryRequest(categoryName)
-    app.itemRequest(itemId)
-    app.listView.render()
-
-    @currentCat.set(categoryName)
-
-
-  initialize: ->
-    that = this
-
-    jQuery('#search').on 'keyup', ->
-      url = 'cat/'+that.currentCat.get()
-      if jQuery(this).val()
-        url += '/search/'+jQuery(this).val()
-      that.navigate url, {trigger: true}
-
-
-router = new Router
-
-Backbone.history.start()
+    app.showItemDetail
+      category: category
+      search: search
+      id: itemId

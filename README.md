@@ -12,10 +12,24 @@ Geschrieben in:
 - Sass
 
 Clientseitig:
-Backbone.js
-Underscore.js
-jQuery
+- Backbone.js
+- Underscore.js
+- jQuery
 
 Serverseitig:
-node.js
-MongoDB
+- node.js
+- MongoDB
+
+## Backbone
+
+Views:
+- AppView
+- ListView (+ ItemView)
+- ItemDetailView
+- RandomView
+
+Collections:
+- List
+
+Models:
+- Item
