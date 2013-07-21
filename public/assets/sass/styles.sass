@@ -144,6 +144,7 @@ input#search
 
 #list-view ul
   li
+    cursor: pointer
     &:hover
       background-color: $quadrary - #222
 
@@ -173,7 +174,19 @@ input#search
     background: #fefefe
     // TODO : Wieder raus wenn nicht mehr benötigt
     padding-bottom: 1px
-
+    border-radius: $radius
+  .close
+    cursor: pointer
+    border-radius: $radius $radius 0 0
+    background: $secondary
+    //font-weight: bold
+    color: #fff
+    font-size: 14px
+    font-family: $font-highlight
+    padding: 0 $space-t-b
+  .more
+    padding: $space-t-b $space-t-b
+    
 
 ul
   border-bottom: 1px solid $tertiary

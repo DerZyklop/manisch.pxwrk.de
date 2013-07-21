@@ -15,10 +15,10 @@ class pxwrkHelpersForViews extends Backbone.View
       return result
   )()
 
-  randomItemTmpl: (->
+  itemDetailTmpl: (->
     result = ''
     jQuery.ajax
-      url: 'site/templates/random-item.html'
+      url: 'site/templates/item-detail.html'
       async: false
       success: (data) ->
         result = data

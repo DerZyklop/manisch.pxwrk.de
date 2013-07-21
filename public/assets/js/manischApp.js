@@ -31,11 +31,11 @@
       };
     })();
 
-    pxwrkHelpersForViews.prototype.randomItemTmpl = (function() {
+    pxwrkHelpersForViews.prototype.itemDetailTmpl = (function() {
       var result;
       result = '';
       jQuery.ajax({
-        url: 'site/templates/random-item.html',
+        url: 'site/templates/item-detail.html',
         async: false,
         success: function(data) {
           return result = data;
@@ -80,25 +80,42 @@
     ItemDetailView.prototype.id = 'item-detail-view';
 
     ItemDetailView.prototype.events = {
-      'click': 'unrender'
+      'click': 'unrenderCheck',
+      'click a': 'unrender',
+      'click .close': 'unrender'
+    };
+
+    ItemDetailView.prototype.itemHtml = function() {
+      return _.template(this.itemTmpl, this.model.toJSON());
+    };
+
+    ItemDetailView.prototype.viewHtml = function() {
+      var item;
+      if (this.model) {
+        return item = _.template(this.itemDetailTmpl, {
+          content: this.itemHtml(),
+          more: '(Hier kommt später eine Share-Funktion für Facebook und Twitter)'
+        });
+      } else {
+        return item = _.template(this.itemDetailTmpl, {
+          content: 'Ulai! Isch kann die Übersetzung net finde. Da fällt mer <a href="#cat/alle/search/härles">härles</a> aach ke <a href="#cat/alle/search/linkeresko">linkeresko</a> ei!',
+          more: '(Hier kommt später eine Share-Funktion für Facebook und Twitter)'
+        });
+      }
     };
 
     ItemDetailView.prototype.initialize = function() {
-      return _.bindAll(this);
+      var _this = this;
+      _.bindAll(this);
+      return jQuery(document).on('keyup', function(event) {
+        if (event.keyCode === 27) {
+          return _this.unrender();
+        }
+      });
     };
 
     ItemDetailView.prototype.render = function() {
-      var contentDiv, insights, item;
-      contentDiv = jQuery('<div>').addClass('content');
-      if (this.model) {
-        item = '<li>' + _.template(this.itemTmpl, this.model.toJSON()) + '</li>';
-      } else {
-        item = '<li>Ulai! Isch kann die Übersetzung net finde. Da fällt mer härles aach ke linkeresko ei!</li>';
-      }
-      insights = jQuery('<ul>').html(item);
-      insights = insights.before('<div><div class="right">X</div><div class="clearit"></div></div>');
-      jQuery(contentDiv).html(insights);
-      return jQuery(this.el).html(contentDiv);
+      return jQuery(this.el).html(this.viewHtml());
     };
 
     ItemDetailView.prototype.show = function() {
@@ -116,17 +133,22 @@
       return this.$el.fadeIn(200);
     };
 
-    ItemDetailView.prototype.unrender = function(event) {
+    ItemDetailView.prototype.unrenderCheck = function(event) {
       if (event.target.id === 'item-detail-view') {
-        return this.$el.fadeOut(200, function() {
-          var url;
-          this.remove();
-          url = router.getNewUrl();
-          return router.navigate(url, {
-            trigger: false
-          });
-        });
+        return this.unrender(event);
       }
+    };
+
+    ItemDetailView.prototype.unrender = function(event) {
+      jQuery(document).off('keyup');
+      return this.$el.fadeOut(200, function() {
+        var url;
+        this.remove();
+        url = router.getNewUrl();
+        return router.navigate(url, {
+          trigger: false
+        });
+      });
     };
 
     return ItemDetailView;

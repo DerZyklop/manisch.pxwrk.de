@@ -578,6 +578,9 @@ input#search:focus {
   font-family: "Droid Sans", helvetica, sans-serif;
 }
 
+#list-view ul li {
+  cursor: pointer;
+}
 #list-view ul li:hover {
   background-color: gainsboro;
 }
@@ -607,6 +610,19 @@ input#search:focus {
 #item-detail-view .content {
   background: #fefefe;
   padding-bottom: 1px;
+  border-radius: 6px;
+}
+#item-detail-view .close {
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  background: #990000;
+  color: white;
+  font-size: 14px;
+  font-family: "Droid Sans", helvetica, sans-serif;
+  padding: 0 20px;
+}
+#item-detail-view .more {
+  padding: 20px 20px;
 }
 
 ul {
