@@ -145,7 +145,7 @@ module.exports = (grunt) ->
     connect:
       all:
         options:
-          port: 8080
+          port: 1337
           base: 'build'
           hostname: "0.0.0.0"
           keepalive: true
