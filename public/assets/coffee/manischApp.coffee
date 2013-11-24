@@ -1,7 +1,7 @@
+pxwrk = new PxwrkLib
+
 translations = new List
 translations.fetch
-  url: 'translations'
-  async: false
   error: (data) ->
     #console.log 'fetch error!!'
     #console.log data
@@ -10,6 +10,7 @@ translations.fetch
     #console.log data
 
 app = new AppView
+app.render()
 router = new Router
 
 Backbone.history.start()

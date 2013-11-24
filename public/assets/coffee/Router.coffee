@@ -9,12 +9,13 @@ class Router extends Backbone.Router
 
 
   beforeNavigate: (params) ->
-    jQuery('.active').removeClass 'active'
-    jQuery('#'+params.category+'-btn').addClass 'active'
+    app.$el.find('#primary .active').removeClass 'active'
+    app.$el.find('#'+params.category+'-btn').addClass 'active'
+    #app.render()
 
 
   getNewUrl: ->
-    console.log 'getNewUrl'
+    pxwrk.functionLog 'getNewUrl'
     url = ''
     if @currentCat.get()
       url += 'cat/'+@currentCat.get()+'/'
@@ -26,18 +27,23 @@ class Router extends Backbone.Router
 
 
   showFilteredList: (category = 'alle', search = '') ->
+
     params =
       category: category
       search: search
 
     @beforeNavigate(params)
 
-    console.log 'showFilteredList'
+    pxwrk.functionLog 'showFilteredList'
     @currentCat.set(params.category)
 
     app.listView.unrender()
     app.listRequest(params)
+
     app.listView.render()
+
+    #console.log app.listView.el
+    app
 
 
   currentCat: (->
@@ -51,7 +57,7 @@ class Router extends Backbone.Router
   )()
 
   showRandomItems: ->
-    console.log 'showRandomItems'
+    pxwrk.functionLog 'showRandomItems'
 
     app.randomItemRequest()
 

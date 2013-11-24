@@ -1,4 +1,4 @@
-class ItemDetailView extends pxwrkHelpersForViews
+class ItemDetailView extends PxwrkViewLib
 
   tagName: 'div'
 
@@ -8,7 +8,6 @@ class ItemDetailView extends pxwrkHelpersForViews
     'click': 'unrenderCheck'
     'click a': 'unrender'
     'click .close': 'unrender'
-
 
   fadeDuration = 0
 
@@ -33,10 +32,9 @@ class ItemDetailView extends pxwrkHelpersForViews
 
   render: ->
     jQuery(@el).html(@viewHtml())
+    @
 
   show: ->
-    @render()
-
     url = router.getNewUrl()
 
     if @model
@@ -48,6 +46,7 @@ class ItemDetailView extends pxwrkHelpersForViews
     jQuery('body').append @el
     @$el.fadeIn fadeDuration
     @$el.find('.button').focus()
+    @
 
   unrenderCheck: (event) ->
     if event.target.id == 'item-detail-view'

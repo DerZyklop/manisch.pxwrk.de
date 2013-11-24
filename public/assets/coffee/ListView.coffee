@@ -1,7 +1,6 @@
-class ListView extends pxwrkHelpersForViews
+class ListView extends PxwrkViewLib
 
-  el: '#list-view ul'
-
+  tagName: 'ul'
   visibleItems: new List
 
   getFilteredList: (params) ->
@@ -18,9 +17,9 @@ class ListView extends pxwrkHelpersForViews
     translationsCounter = 0
     itemsCounter = 0
     return (item, amount) ->
-      if (latestTranslation.german == item.toJSON().german)
+      if latestTranslation.german == item.toJSON().german
         result = 'same-german'
-      else if (latestTranslation.manisch == item.toJSON().manisch)
+      else if latestTranslation.manisch == item.toJSON().manisch
         result = 'same-manisch'
       else
         result = ''
@@ -42,6 +41,10 @@ class ListView extends pxwrkHelpersForViews
       return result
   )()
 
+  # initialize: ->
+  #   @visibleItems.bind('change', @render);
+
+
   appendItem: (item) ->
 
     itemView = new ItemView
@@ -56,7 +59,10 @@ class ListView extends pxwrkHelpersForViews
     _.each @visibleItems.models, (item) =>
       @appendItem item
 
+    @
 
+  show: ->
+    app.$el.find('#list-view').append(@el)
 
   deactivateInfo: () ->
     el = jQuery('#bottom-list-info')
@@ -65,11 +71,13 @@ class ListView extends pxwrkHelpersForViews
 
 
   render: ->
-    @functionLog 'render()'
+    pxwrk.functionLog 'render()'
 
     @deactivateInfo()
 
-    @appendItems()
+    @appendItems().show()
+
+    @
 
   unrender: ->
     jQuery(@el).html('')

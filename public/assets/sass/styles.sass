@@ -1,6 +1,6 @@
 @import 'config'
 
-@import '../../../../github.pxwrk.de/pxwrk-sass-dummy-beta/mixins/all'
+@import '../../../../github.pxwrk.de/pxwrk-sass-dummy-0.5/mixins/all'
 
 +all
 
@@ -63,18 +63,8 @@ a
 #secondary
   position: relative
 
-#bottom-shadow
-  background: linear-gradient(transparent,#000)
-  height: 50px
-  position: fixed
-  bottom: 0
-  left: 30%
-  right: 0
-  opacity: 0.3
-  +transition(opacity 0.5s)
-
-
 #secondary .top-bar
+  background: rgba(255,255,255,0.8)
   background: linear-gradient(rgba(255,255,255,0.8),rgba(240,240,240,0.8))
 
 
@@ -189,11 +179,12 @@ input#search
     background: $primary
     background: linear-gradient($primary, $primary - #222)
     //font-weight: bold
-    color: #fff
-    font-size: $font-size-small
+    color: $primary + #333
+
+    //font-size: $font-size-small
+
     font-family: $font-highlight
-    padding: 0 $space-t-b
-    padding: $space-t-b/2 $space-t-b
+    padding: $space-t-b
   .content
     margin: $space-t-b*2
     background: #fefefe
@@ -209,11 +200,13 @@ input#search
   .button
     margin-top: $space-t-b*2
     padding: $space-t-b 0
+    background: $quadrary
     background: linear-gradient($quadrary, $quadrary - #111)
     color: $font-color
     font-size: 0.9em
     border-color: rgba(0,0,0,0.2)
     &:hover
+      background: $quadrary - #222
       background: linear-gradient($quadrary, $quadrary - #222)
       //color: $quadrary
       border-color: rgba(0,0,0,0.4)

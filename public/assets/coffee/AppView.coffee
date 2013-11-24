@@ -1,17 +1,43 @@
-class AppView extends pxwrkHelpersForViews
+class AppView extends PxwrkViewLib
 
-  el: 'body'
+  tmpl: (->
+    result = ''
+    jQuery.ajax
+      url: '/site/templates/app.html'
+      async: false
+      success: (data) ->
+        result = data
+    result
+  )()
+
+  className: 'page-wrap'
 
   events:
     'keyup #search': 'performSearch'
+    'change #search': 'performSearch'
+    'submit #searchform': 'preventSubmit'
     'keyup #primary': 'keyNav'
 
   listView: new ListView
 
-  navHeight: jQuery('#secondary .top-bar').offset().top
+  render: ->
+    pxwrk.functionLog 'AppView.render()'
+    if @tmpl
+      jQuery(@el).html( @tmpl )
+    else
+      jQuery(@el).html( 'Error: Missing Template' )
+    @
+
+  show: ->
+    pxwrk.functionLog 'AppView.render()'
+    jQuery('body#manischapp').html @el
+    @
+
+  navHeight: ->
+    jQuery('#secondary .top-bar').offset()?.top
 
   keyNav: (event) ->
-    
+
     console.log @$el.find('#'+event.target.id).prev()
 
     el = @$el.find('#'+event.target.id)
@@ -40,6 +66,27 @@ class AppView extends pxwrkHelpersForViews
         console.log 'links'
         return
 
+  isColored = false
+
+  preventSubmit: (event) ->
+    event.preventDefault()
+
+    if !isColored
+      isColored = true
+
+      elements = jQuery('#itemview .german')
+
+      jQuery.merge elements, jQuery('#itemview .manisch')
+
+      backgroundColor = jQuery(elements[0]).css('color')
+
+      elements.css('color', '#070')
+      setTimeout ->
+        elements.css
+          'color': backgroundColor
+        isColored = false
+      , 500
+
   performSearch: (event) ->
     router.navigate router.getNewUrl(), {trigger: true}
 
@@ -48,49 +95,57 @@ class AppView extends pxwrkHelpersForViews
     #jQuery('input:visible:first:text').focus()
 
 
-  checkNavHeight: ->
-    jQuery('body').removeClass('fixsearch')
-    @navHeight = jQuery('#secondary .top-bar').offset().top
-
-
   performScrollCheck: ->
+    currentNavHeight = @navHeight()
     if jQuery('body').hasClass('fixsearch')
 
-      if jQuery(window).scrollTop() < @navHeight
+      if currentNavHeight && jQuery(window).scrollTop() < currentNavHeight
         jQuery('body').removeClass('fixsearch')
 
     else
 
-      if jQuery(window).scrollTop() > @navHeight
+      if currentNavHeight && jQuery(window).scrollTop() > currentNavHeight
         jQuery('body').addClass('fixsearch')
 
 
   listRequest: (params) ->
-    @functionLog 'listRequest()'
+    pxwrk.functionLog 'listRequest()'
 
     if jQuery('#search').val() != params.search
       jQuery('#search').val(params.search)
 
-    if @valueHasChanged(params.search, 'search') || @valueHasChanged(params.category, 'category') 
+    if pxwrk.valueHasChanged(params.search, 'search') || pxwrk.valueHasChanged(params.category, 'category') 
 
       @listView.getFilteredList params
 
 
-  randomItemRequest: ->
+
+  clearSearchInput: ->
     jQuery('#search').val('')
 
-    category = 'alle' || router.currentCat.get()
+  setRandomParams: ->
+    if router.currentCat.get()
+      category = router.currentCat.get()
+    else
+      category = 'alle'
 
     params =
       category: category
       search: ''
       id: _.random(1, translations.length).toString()
 
+  loadListInBackground: (params) =>
     if !router.currentCat.get()
       @listRequest(params)
       @listView.render()
 
+  randomItemRequest: ->
+    params = @setRandomParams()
+
+    @clearSearchInput()
+    @loadListInBackground(params)
     @showItemDetail(params)
+
 
 
   showItemDetail: (params) ->
@@ -100,12 +155,14 @@ class AppView extends pxwrkHelpersForViews
 
     itemDetailView = new ItemDetailView
       model: item
-    itemDetailView.show()
+    itemDetailView.render().show()
 
 
   initialize: ->
-    @functionLog 'initialize()'
+    pxwrk.functionLog 'initialize()'
     _.bindAll @
+
+    @render().show()
 
     @setFocusToFirstInput()
 
@@ -113,9 +170,10 @@ class AppView extends pxwrkHelpersForViews
       @performScrollCheck()
 
     jQuery(window).on 'resize', =>
-      @checkNavHeight()
+      jQuery('body').removeClass('fixsearch')
       @performScrollCheck()
 
-    setTimeout ->
-      jQuery('body').animate({scrollTop: jQuery('#secondary .top-bar').offset().top}, 400)
-    , 500
+  #  TODO: Fix on item-view
+#    setTimeout ->
+#      jQuery('body').animate({scrollTop: jQuery('#secondary .top-bar').offset().top}, 400)
+#    , 500

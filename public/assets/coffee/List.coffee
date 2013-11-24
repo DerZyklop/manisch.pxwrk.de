@@ -1,9 +1,15 @@
 class List extends Backbone.Collection
 
   model: Item
+  url: '/translations'
+
+  fetch: (options) ->
+    options = options || {}
+    options.async = false
+    super(options)
 
   category: (categoryName) ->
-    #@functionLog 'byCategory('+categoryName+')'
+    #pxwrk.functionLog 'byCategory('+categoryName+')'
 
     if categoryName == 'alle'
       result = @
