@@ -114,7 +114,7 @@ class AppView extends PxwrkViewLib
     if jQuery('#search').val() != params.search
       jQuery('#search').val(params.search)
 
-    if pxwrk.valueHasChanged(params.search, 'search') || pxwrk.valueHasChanged(params.category, 'category') 
+    if pxwrk.valueHasChanged(params.search, 'search') || pxwrk.valueHasChanged(params.category, 'category')
 
       @listView.getFilteredList params
 
@@ -151,7 +151,7 @@ class AppView extends PxwrkViewLib
   showItemDetail: (params) ->
 
     items = translations.category('alle').search('')
-    item = items.findWhere({id:params.id})
+    item = items.findWhere({id:parseFloat(params.id)})
 
     itemDetailView = new ItemDetailView
       model: item
