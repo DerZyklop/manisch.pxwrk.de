@@ -1,12 +1,17 @@
 @import 'config'
 
-@import '../../../../github.pxwrk.de/pxwrk-sass-dummy-0.5/mixins/all'
+@import 'sass-boilerplate/mixins/all'
 
 +all
 
 $nav-col-size: 30%
 $nav-col-min-width: 330px
 $topBarHeight: 26px
+
+body
+  background-image: url('../img/giessen-poster.png')
+  background-position: bottom
+  background-repeat: repeat-x
 
 h1
   font-size: 1em
@@ -16,18 +21,18 @@ h1
 
 #primary,
 .magic-link
-  background: 
+  background:
     repeat: repeat
 #primary
-  background: 
+  background:
     image: url('../img/noise-dark.png')
 .magic-link
-  background: 
+  background:
     image: url('../img/noise-light.png')
 
 #primary
   padding-bottom: $space-t-b
-  background: 
+  background:
     color: #333
   .top-bar
     display: block
@@ -62,6 +67,9 @@ a
 
 #secondary
   position: relative
+  .content
+    background: rgba(255,255,255,0.8)
+
 
 #secondary .top-bar
   background: rgba(255,255,255,0.8)

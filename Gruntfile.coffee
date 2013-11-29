@@ -83,6 +83,12 @@ module.exports = (grunt) ->
             flatten: true
           }, {
             expand: true
+            src: ['public/assets/img/*']
+            dest: 'build/assets/img/'
+            filter: 'isFile'
+            flatten: true
+          }, {
+            expand: true
             src: ['public/assets/styles/styles.css']
             dest: 'build/assets/styles/'
             filter: 'isFile'
