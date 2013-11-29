@@ -592,7 +592,7 @@ AppView = (function(_super) {
     var item, itemDetailView, items;
     items = translations.category('alle').search('');
     item = items.findWhere({
-      id: params.id
+      id: parseFloat(params.id)
     });
     itemDetailView = new ItemDetailView({
       model: item

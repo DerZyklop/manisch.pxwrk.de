@@ -151,6 +151,7 @@ class AppView extends PxwrkViewLib
   showItemDetail: (params) ->
 
     items = translations.category('alle').search('')
+
     item = items.findWhere({id:parseFloat(params.id)})
 
     itemDetailView = new ItemDetailView
