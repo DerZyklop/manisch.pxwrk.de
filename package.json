@@ -3,9 +3,6 @@
   "description": "A Manisch/German dictionary",
   "version": "0.5.0",
   "private": true,
-  "scripts": {
-    "preinstall": "sudo npm install -g grunt-cli"
-  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "matchdep": "~0.1.2",
