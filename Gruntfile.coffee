@@ -43,7 +43,7 @@ module.exports = (grunt) ->
 
     # Set up some vars
     paths:
-      base: 'public/'
+      base: ''
       assets: '<%= paths.base %>assets/'
       coffee: '<%= paths.assets %>coffee/'
       js: '<%= paths.assets %>js/'
