@@ -33,6 +33,6 @@ Collections:
 Models:
 - Item
 
-Zum starten: 
+Zum starten:
 'grunt server'
 'grunt'

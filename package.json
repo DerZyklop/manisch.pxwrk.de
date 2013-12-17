@@ -1,7 +1,7 @@
 {
   "name": "manisch-german-dict",
   "description": "A Manisch/German dictionary",
-  "version": "0.4.8",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
     "preinstall": "sudo npm install -g grunt-cli"
