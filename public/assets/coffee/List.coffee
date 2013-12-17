@@ -1,7 +1,7 @@
 class List extends Backbone.Collection
 
   model: Item
-  url: '/translations'
+  url: '/content/translations'
 
   fetch: (options) ->
     options = options || {}

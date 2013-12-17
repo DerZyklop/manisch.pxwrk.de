@@ -42,7 +42,7 @@ PxwrkViewLib = (function(_super) {
     var result;
     result = '';
     jQuery.ajax({
-      url: '/site/templates/item-detail.html',
+      url: '/site/snippets/item-detail.html',
       async: false,
       success: function(data) {
         return result = data;
@@ -55,7 +55,7 @@ PxwrkViewLib = (function(_super) {
     var result;
     result = '';
     jQuery.ajax({
-      url: '/site/templates/item.html',
+      url: '/site/snippets/item.html',
       async: false,
       success: function(data) {
         return result = data;
@@ -97,65 +97,61 @@ Item = (function(_super) {
 
 })(Backbone.Model);
 
-var ItemView, _ref,
+var List, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-ItemView = (function(_super) {
-  __extends(ItemView, _super);
+List = (function(_super) {
+  __extends(List, _super);
 
-  function ItemView() {
-    _ref = ItemView.__super__.constructor.apply(this, arguments);
+  function List() {
+    _ref = List.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
-  ItemView.prototype.tagName = 'li';
+  List.prototype.model = Item;
 
-  ItemView.prototype.initialize = function() {
-    _.bindAll(this);
-    if (!this.model) {
-      throw new Error('model is required');
-    }
-    if (this.model.constructor.name !== 'Item') {
-      throw new Error('model is not an instance of Item');
-    }
+  List.prototype.url = '/content/translations';
+
+  List.prototype.fetch = function(options) {
+    options = options || {};
+    options.async = false;
+    return List.__super__.fetch.call(this, options);
   };
 
-  ItemView.prototype.events = {
-    'click': 'showItemDetail'
-  };
-
-  ItemView.prototype.render = function() {
-    pxwrk.functionLog('ItemView.render()');
-    if (this.itemTmpl) {
-      jQuery(this.el).html(_.template(this.itemTmpl, this.model.toJSON()));
+  List.prototype.category = function(categoryName) {
+    var itemByCategory, result;
+    if (categoryName === 'alle') {
+      result = this;
     } else {
-      jQuery(this.el).html('Error: Missing Template');
+      itemByCategory = function(item) {
+        return _.contains(item.get('category'), categoryName);
+      };
+      result = new List;
+      result.add(this.filter(itemByCategory));
     }
-    return this;
+    return result;
   };
 
-  ItemView.prototype.unrender = function() {
-    pxwrk.functionLog('ItemView.unrender()');
-    this.remove();
-    return this;
+  List.prototype.search = function(param) {
+    var byInput, filtered,
+      _this = this;
+    if (!param) {
+      return this;
+    }
+    byInput = function(element, index, array) {
+      var attributes, pattern;
+      attributes = element.toJSON();
+      pattern = RegExp(param.toLowerCase());
+      return attributes.german.toLowerCase().match(pattern) || attributes.manisch.toLowerCase().match(pattern);
+    };
+    filtered = new List(this.filter(byInput));
+    return filtered;
   };
 
-  ItemView.prototype.renderItemDetailView = function() {
-    var itemDetailView;
-    itemDetailView = new ItemDetailView({
-      model: this.model
-    });
-    return itemDetailView.render();
-  };
+  return List;
 
-  ItemView.prototype.showItemDetail = function() {
-    return this.renderItemDetailView().show();
-  };
-
-  return ItemView;
-
-})(PxwrkViewLib);
+})(Backbone.Collection);
 
 var ItemDetailView, _ref,
   __hasProp = {}.hasOwnProperty,
@@ -255,61 +251,65 @@ ItemDetailView = (function(_super) {
 
 })(PxwrkViewLib);
 
-var List, _ref,
+var ItemView, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-List = (function(_super) {
-  __extends(List, _super);
+ItemView = (function(_super) {
+  __extends(ItemView, _super);
 
-  function List() {
-    _ref = List.__super__.constructor.apply(this, arguments);
+  function ItemView() {
+    _ref = ItemView.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
-  List.prototype.model = Item;
+  ItemView.prototype.tagName = 'li';
 
-  List.prototype.url = '/translations';
-
-  List.prototype.fetch = function(options) {
-    options = options || {};
-    options.async = false;
-    return List.__super__.fetch.call(this, options);
+  ItemView.prototype.initialize = function() {
+    _.bindAll(this);
+    if (!this.model) {
+      throw new Error('model is required');
+    }
+    if (this.model.constructor.name !== 'Item') {
+      throw new Error('model is not an instance of Item');
+    }
   };
 
-  List.prototype.category = function(categoryName) {
-    var itemByCategory, result;
-    if (categoryName === 'alle') {
-      result = this;
+  ItemView.prototype.events = {
+    'click': 'showItemDetail'
+  };
+
+  ItemView.prototype.render = function() {
+    pxwrk.functionLog('ItemView.render()');
+    if (this.itemTmpl) {
+      jQuery(this.el).html(_.template(this.itemTmpl, this.model.toJSON()));
     } else {
-      itemByCategory = function(item) {
-        return _.contains(item.get('category'), categoryName);
-      };
-      result = new List;
-      result.add(this.filter(itemByCategory));
+      jQuery(this.el).html('Error: Missing Template');
     }
-    return result;
+    return this;
   };
 
-  List.prototype.search = function(param) {
-    var byInput, filtered,
-      _this = this;
-    if (!param) {
-      return this;
-    }
-    byInput = function(element, index, array) {
-      var attributes, pattern;
-      attributes = element.toJSON();
-      pattern = RegExp(param.toLowerCase());
-      return attributes.german.toLowerCase().match(pattern) || attributes.manisch.toLowerCase().match(pattern);
-    };
-    filtered = new List(this.filter(byInput));
-    return filtered;
+  ItemView.prototype.unrender = function() {
+    pxwrk.functionLog('ItemView.unrender()');
+    this.remove();
+    return this;
   };
 
-  return List;
+  ItemView.prototype.renderItemDetailView = function() {
+    var itemDetailView;
+    itemDetailView = new ItemDetailView({
+      model: this.model
+    });
+    return itemDetailView.render();
+  };
 
-})(Backbone.Collection);
+  ItemView.prototype.showItemDetail = function() {
+    return this.renderItemDetailView().show();
+  };
+
+  return ItemView;
+
+})(PxwrkViewLib);
 
 var ListView, _ref,
   __hasProp = {}.hasOwnProperty,

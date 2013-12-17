@@ -18,7 +18,6 @@ Clientseitig:
 
 Serverseitig:
 - node.js
-- MongoDB
 
 ## Backbone
 

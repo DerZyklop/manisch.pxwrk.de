@@ -3,7 +3,7 @@ class PxwrkViewLib extends Backbone.View
   itemDetailTmpl: (->
     result = ''
     jQuery.ajax
-      url: '/site/templates/item-detail.html'
+      url: '/site/snippets/item-detail.html'
       async: false
       success: (data) ->
         result = data
@@ -13,7 +13,7 @@ class PxwrkViewLib extends Backbone.View
   itemTmpl: (->
     result = ''
     jQuery.ajax
-      url: '/site/templates/item.html'
+      url: '/site/snippets/item.html'
       async: false
       success: (data) ->
         result = data

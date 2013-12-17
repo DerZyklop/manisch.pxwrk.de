@@ -1,199 +1,168 @@
+# ____________________________________________________________________________ #
+# ###########################################################################| #
+# ##################################ZZZZZZZZZ################################| #
+# #################################/        /\###############################| #
+# ################################/        /  \##############################| #
+# ###############################/        /    \#############################| #
+# ##############################/        /      \############################| #
+# #############################/        /        \###########################| #
+# ############################/        /          \##########################| #
+# ###########################/        /            \#########################| #
+# ##########################/        /      /\      \########################| #
+# #########################/        /      /  \      \#######################| #
+# ########################/        /      /    \      \######################| #
+# #######################/        /      /\     \      \#####################| #
+# ######################/        /      /##\     \      \####################| #
+# #####################/        /      /####\     \      \###################| #
+# ####################/        /______/ZZZZZZ\     \      \##################| #
+# ###################/                        \     \      \#################| #
+# ##################/                          \     \      \################| #
+# #################(____________________________\     \      )###############| #
+# ##################\                                  \    /################| #
+# ###################\                                  \  /#################| #
+# ####################\__________________________________\/##################| #
+# ###########################################################################| #
+# ########################### +-------------------+ #########################| #
+# ########################### |  code written by  | #########################| #
+# ########################### |  ---------------  | #########################| #
+# ########################### |   Nils  Neumann   | #########################| #
+# ########################### | www.der-zyklop.de | #########################| #
+# ########################### +-------------------+ #########################| #
+# ###########################################################################| #
+# ____________________________________________________________________________ #
+
+
 module.exports = (grunt) ->
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
   grunt.initConfig
+
+    # load content from the package.json
     pkg: grunt.file.readJSON('package.json')
 
+    # Set up some vars
+    paths:
+      base: 'public/'
+      assets: '<%= paths.base %>assets/'
+      coffee: '<%= paths.assets %>coffee/'
+      js: '<%= paths.assets %>js/'
+      sass: '<%= paths.assets %>sass/'
+      css: '<%= paths.assets %>styles/'
+      sassfilename: 'styles'
+      jsfilename: 'app'
+
+    banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */'
+
+
+    # process coffee-files
     coffee:
-      app:
+      all:
         options:
           join: false
           bare: true
         files:
-          'public/assets/js/app.js': [
-              'public/assets/coffee/pxwrkLib.coffee'
-              'public/assets/coffee/pxwrkViewLib.coffee'
-              'public/assets/coffee/item.coffee'
-              'public/assets/coffee/ItemView.coffee'
-              'public/assets/coffee/itemDetailView.coffee'
-              'public/assets/coffee/List.coffee'
-              'public/assets/coffee/ListView.coffee'
-              'public/assets/coffee/AppView.coffee'
-              'public/assets/coffee/Router.coffee'
-              'public/assets/coffee/manischApp.coffee'
-            ]
-      client:
+          '<%= paths.coffee %>pre_js/<%= paths.jsfilename %>.js': [
+            '<%= paths.coffee %>pxwrkLib.coffee'
+            '<%= paths.coffee %>pxwrkViewLib.coffee'
+            '<%= paths.coffee %>item.coffee'
+            '<%= paths.coffee %>list.coffee'
+            '<%= paths.coffee %>itemDetailView.coffee'
+            '<%= paths.coffee %>itemView.coffee'
+            '<%= paths.coffee %>listView.coffee'
+            '<%= paths.coffee %>appView.coffee'
+            '<%= paths.coffee %>router.coffee'
+            '<%= paths.coffee %>manischApp.coffee'
+          ]
+        # files: [
+        #   expand: true
+        #   cwd: '<%= paths.coffee %>'
+        #   src: ['*.coffee']
+        #   dest: '<%= paths.coffee %>pre_js'
+        #   ext: '.js'
+        # ]
+
+    # minify js-files
+    uglify:
+      options:
+        banner: '<%= banner %>'
+      js:
         files:
-          'client/js/manisch-api.js': ['client/coffee/manisch-api.coffee']
-          'client/js/server.js': ['client/coffee/server.coffee']
-      tests:
-        files:
-          'public/tests/casperjs/js/casper.js': ['public/tests/casperjs/coffee/casper.coffee']
+          '<%= paths.js %><%= paths.jsfilename %>.min.js': [
+            '<%= paths.coffee %>pre_js/jquery*.js'
+            '<%= paths.coffee %>pre_js/underscore.js'
+            '<%= paths.coffee %>pre_js/backbone.js'
+            '<%= paths.coffee %>pre_js/<%= paths.jsfilename %>.js'
+          ]
+        options:
+          mangle: false
 
 
+    # process sass-files
     sass:
       all:
         options:
           compass: true
-        files:
-          'build/assets/styles/styles.css': 'public/assets/sass/styles.sass'
+          style: 'compressed'
+        files: '<%= paths.sass %>pre_css/<%= paths.sassfilename %>.css': '<%= paths.sass %><%= paths.sassfilename %>.sass'
 
-
-    uglify:
+    # minify css-files
+    cssmin:
       options:
-        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */'
-        beautify:
-          width: 80
-          beautify: false
-      app:
+        banner: '<%= banner %>'
+      all:
         files:
-          'build/assets/js/app.min.js': [
-            'public/assets/js/libs/jquery.min.js'
-            'public/assets/js/libs/underscore.js'
-            'public/assets/js/libs/backbone.js'
-            'public/assets/js/app.js'
+          '<%= paths.css %><%= paths.sassfilename %>.css': [
+            '<%= paths.sass %>pre_css/*.css'
           ]
-        options:
-          beautify:
-            width: 80
-            beautify: true
-          mangle: false
 
-
-    copy:
-      main:
-        files: [{
-            expand: true
-            src: ['public/root/translations/*']
-            dest: 'build/translations/'
-            filter: 'isFile'
-            flatten: true
-          }, {
-            expand: true
-            src: ['public/root/site/templates/*']
-            dest: 'build/site/templates/'
-            filter: 'isFile'
-            flatten: true
-          }, {
-            expand: true
-            src: ['public/root/*']
-            dest: 'build/'
-            filter: 'isFile'
-            flatten: true
-          }, {
-            expand: true
-            src: ['public/assets/img/*']
-            dest: 'build/assets/img/'
-            filter: 'isFile'
-            flatten: true
-          }, {
-            expand: true
-            src: ['public/assets/styles/styles.css']
-            dest: 'build/assets/styles/'
-            filter: 'isFile'
-            flatten: true
-          }]
-
-
-    shell:
-      mongo:
-        command: 'mongod'
-
-
-
-    casperjs:
-      options: {}
-      files: ['public/tests/casperjs/js/casper.js']
+    uncss:
+      dist:
+        files:
+          'assets/styles/foo.css': ['index.php']
 
     watch:
-      root:
-        files: ['public/root/**/*']
-        tasks: ['copy']
-        options:
-          spawn: false
-      client:
-        files: ['client/coffee/*']
-        tasks: ['coffee:client']
-        options:
-          spawn: false
-      scripts:
-        files: ['public/assets/js/*.js','public/assets/coffee/*.coffee']
-        tasks: ['coffee:app','uglify']
-        options:
-          spawn: false
+      options:
+        livereload: true
+      livereload:
+        files: [
+          '<%= paths.css %>**/*.css'
+          '<%= paths.js %>**/*.js'
+        ]
+        tasks: ['reload']
       sass:
-        files: ['public/assets/sass/*.sass']
+        files: ['<%= paths.sass %>**/*.sass']
         tasks: ['sass']
-        options:
-          spawn: false
-      tests:
-        files: ['public/tests/casperjs/coffee/*.coffee']
-        tasks: ['coffee:tests']
-        options:
-          spawn: false
-      test:
-        #not worrking jet:
-        #files: '<%= casperjs.files %>'
-
-        files: ['public/tests/casperjs/coffee/*.coffee']
-        tasks: ['casperjs']
-        options:
-          spawn: false
-      build:
-        files: ['build/**/*']
+      css:
+        files: ['<%= paths.sass %>pre_css/*.css']
+        tasks: ['cssmin']
+      coffee:
+        files: ['<%= paths.coffee %>*.coffee']
+        tasks: ['coffee']
+      js:
+        files: [
+          '<%= paths.coffee %>pre_js/*.js'
+        ]
+        tasks: ['uglify']
+      tmpl:
+        files: [
+          'site/templates/*'
+          'site/snippets/*'
+          'site/plugins/*'
+        ]
         tasks: ['reload']
 
-
-
-
-
-    connect:
+    php:
       all:
         options:
           port: 1337
-          base: 'build'
-          hostname: "0.0.0.0"
+          hostname: 'localhost'
+          base: '<%= paths.base %>'
           keepalive: true
-
-
 
     open:
       all:
-        path: 'http://localhost:<%= connect.all.options.port%>'
-
-
-
-
-
-  grunt.registerTask 'startdb', 'drop the database', ->
-
-    http = require('http')
-    path = require('path')
-    express = require('express')
-    translations = require('./client/js/manisch-api')
-
-    dbApi = express()
-
-    dbApi.configure ->
-      dbApi.set('port', process.env.PORT || 3033)
-      dbApi.use(express.logger('dev'))
-      dbApi.use(express.bodyParser())
-      #dbApi.use('/static', express.static(__dirname + '/public'))
-
-    dbApi.get('/translations', translations.findAll)
-
-    dbApi.get('/translation/:id', translations.findById)
-
-    dbApi.post('/translations', translations.addTranslation)
-
-    dbApi.put('/translation/:id', translations.updateTranslation)
-
-    dbApi["delete"]('/translation/:id', translations.deleteTranslation)
-
-    http.createServer(dbApi).listen dbApi.get('port'), ->
-      return console.log("Express server listening on port " + dbApi.get('port'))
-
+        path: 'http://<%= php.all.options.hostname %>:<%= php.all.options.port%>'
 
 
   grunt.registerTask "reload", "reload Chrome on OS X", ->
@@ -204,24 +173,6 @@ module.exports = (grunt) ->
         "-e 'end tell'")
 
 
-  # To start the app
-  # run in terminal:
-  # mongod
-  # cd ~/Dropbox/web_mirror/pxwrk.dorado.uberspace.de/manisch.pxwrk.de/ && grunt server
-  # cd ~/Dropbox/web_mirror/pxwrk.dorado.uberspace.de/manisch.pxwrk.de/ && grunt watcher
-
-  #grunt.registerTask('server', ['shell:mongo','startdb','open','connect'])
-  grunt.registerTask('server', ['open','connect'])
-  grunt.registerTask('default', ['watch'])
-  grunt.registerTask('test', ['casperjs'])
-
-
-
-
-
-
-
-
-
-
-
+  grunt.registerTask('uncss', ['uncss'])
+  grunt.registerTask('server', ['open','php'])
+  grunt.registerTask('default', ['reload','watch'])
